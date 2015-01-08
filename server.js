@@ -2,6 +2,7 @@
 
 var express = require('express');
 var cors = require('cors');
+var helmet = require('helmet');
 var errorHandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -20,6 +21,7 @@ module.exports = function(cb) {
     }
 
     app.use(cors());
+    app.use(helmet());
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
