@@ -3,6 +3,7 @@
 var express = require('express');
 var errorHandler = require('errorhandler');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var swaggerTools = require('swagger-tools');
 
 var apikey = require('./config').apikey;
@@ -14,6 +15,7 @@ module.exports = function(cb) {
     var env = process.env.NODE_ENV || 'development';
     if(env === 'development') {
         app.use(errorHandler());
+        app.use(morgan('dev'));
     }
 
     app.use(bodyParser.json());
