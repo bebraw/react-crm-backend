@@ -19,7 +19,9 @@
     "sqlite3": "^3.0.4",
     "swagger-tools": "^0.7.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "axios": "^0.4.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/koodilehto/koodilehto-crm-backend.git"
@@ -29,7 +31,8 @@
     "url": "https://github.com/koodilehto/koodilehto-crm-backend/issues"
   },
   "scripts": {
-    "start": "node bin/www"
+    "start": "node bin/www",
+    "test": "node tests"
   },
   "keywords": [],
   "licenses": [
