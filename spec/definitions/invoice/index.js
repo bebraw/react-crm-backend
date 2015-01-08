@@ -1,4 +1,5 @@
 'use strict';
+var invoiceStatuses = require('../../constants/invoice_statuses');
 
 
 module.exports = {
@@ -17,14 +18,15 @@ module.exports = {
             'readOnly': true
         },
         'status': {
-            '$ref': '#/definitions/InvoiceStatus',
+            'type': 'string',
+            'enum': invoiceStatuses,
             'readOnly': true
         },
         'sender': {
-            '$ref': '#/definitions/User'
+            '$ref': '#/definitions/Id'
         },
         'receiver': {
-            '$ref': '#/definitions/Client'
+            '$ref': '#/definitions/Id'
         },
         'items': {
             'type': 'array',

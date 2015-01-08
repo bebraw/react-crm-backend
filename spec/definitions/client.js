@@ -1,4 +1,5 @@
 'use strict';
+var languages = require('../constants/languages');
 
 
 module.exports = {
@@ -30,8 +31,8 @@ module.exports = {
         'phone': {
             'type': 'string'
         },
-        'companyId': { // XXX: this should be a reference to a client
-            'type': 'string'
+        'companyId': {
+            '$ref': '#/definitions/Id'
         },
         'iban': {
             'type': 'string'
@@ -40,7 +41,8 @@ module.exports = {
             'type': 'string'
         },
         'language': {
-            '$ref': '#/definitions/Language'
+            'type': 'string',
+            'enum': languages
         },
         'createdAt': {
             'type': 'string',

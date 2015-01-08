@@ -1,18 +1,11 @@
 'use strict';
 var swaggerify = require('./swaggerify');
-var languageCodes = convertToArray(require('../spec/definitions/language'));
+var languages = require('../spec/constants/languages');
 
 
 module.exports = swaggerify('language', {
     get: function(req, res) {
-        res.json(languageCodes);
+        res.json(languages);
     }
 });
 
-function convertToArray(spec) {
-    return spec.properties.code.enum.map(function(v) {
-        return {
-            code: v
-        };
-    });
-}

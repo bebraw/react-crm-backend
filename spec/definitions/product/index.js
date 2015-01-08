@@ -36,7 +36,7 @@ module.exports = {
             'description': 'VAT of the product'
         },
         'group': {
-            '$ref': '#/definitions/ProductGroup'
+            '$ref': '#/definitions/Id'
         },
         'inStock': {
             'type': 'boolean',

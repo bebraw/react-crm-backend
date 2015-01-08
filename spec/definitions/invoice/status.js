@@ -1,12 +1,8 @@
 'use strict';
+var invoiceStatuses = require('../../constants/invoice_statuses');
 
 
 module.exports = {
     'type': 'string',
-    'enum': [
-        'WAITING_TO_BE_SENT',
-        'SENT',
-        'WAITING_PAYMENT',
-        'RECEIVED_PAYMENT'
-    ]
+    'enum': invoiceStatuses
 };

@@ -1,4 +1,5 @@
 'use strict';
+var languages = require('../constants/languages');
 
 
 module.exports = {
@@ -10,7 +11,9 @@ module.exports = {
                 'schema': {
                     'type': 'array',
                     'items': {
-                        '$ref': '#/definitions/Language'
+                        'type': 'string',
+                        'enum': languages,
+                        'readOnly': true
                     }
                 }
             },
