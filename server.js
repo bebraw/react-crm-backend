@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var cors = require('cors');
 var errorHandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -17,6 +18,8 @@ module.exports = function(cb) {
         app.use(errorHandler());
         app.use(morgan('dev'));
     }
+
+    app.use(cors());
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
