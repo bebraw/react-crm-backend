@@ -21,7 +21,7 @@ function testPostInvoice(root) {
             'x-auth-token': apikey
         }
     }).then(function(res) {
-        console.log('ok, res');
+        console.log('ok', res);
     }, function(err) {
         console.error(err);
     });
