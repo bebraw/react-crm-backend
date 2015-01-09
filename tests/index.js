@@ -3,22 +3,29 @@ var url = require('url');
 
 var axios = require('axios');
 
-var apikey = require('../config/').apikey;
-
 
 tests();
 
 function tests() {
     var root = 'http://localhost:3000';
 
-    testPostInvoice(root);
+    authenticate(root).then(testPostInvoice.bind(null, root), function(err) {
+        console.error('failed to authenticate', err);
+    });
 }
 
-function testPostInvoice(root) {
+function authenticate(root) {
+    return axios.post(url.resolve(root, 'authenticate'));
+}
+
+function testPostInvoice(root, res) {
+    var u = url.resolve(root, '/v1/invoices');
+    var token = res.data && res.data.token;
+
     // this is missing post data on purpose
-    axios.post(url.resolve(root, '/v1/invoices'), {}, {
+    axios.post(u, {}, {
         headers: {
-            'x-auth-token': apikey
+            'Authorization': 'Bearer ' + token
         }
     }).then(function(res) {
         console.log('ok', res);

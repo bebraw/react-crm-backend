@@ -1,14 +1,17 @@
 'use strict';
-
 var express = require('express');
 var cors = require('cors');
 var helmet = require('helmet');
 var errorHandler = require('errorhandler');
-var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var bodyParser = require('body-parser');
 var swaggerTools = require('swagger-tools');
+var terminator = require('t1000');
 
-var apikey = require('./config').apikey;
+var auth = require('./routes/auth');
+var config = require('./config');
+var jwt = require('./lib/jwt');
+var spec = require('./spec');
 
 
 module.exports = function(cb) {
@@ -21,6 +24,7 @@ module.exports = function(cb) {
     }
 
     app.use(cors());
+
     app.use(helmet());
 
     app.use(bodyParser.json());
@@ -28,17 +32,15 @@ module.exports = function(cb) {
         extended: false
     }));
 
+    app.use(auth());
+
     // https://github.com/apigee-127/swagger-tools/blob/master/docs/QuickStart.md
-    swaggerTools.initializeMiddleware(require('./spec'), function(middleware) {
+    swaggerTools.initializeMiddleware(spec, function(middleware) {
         app.use(middleware.swaggerMetadata());
 
         app.use(middleware.swaggerSecurity({
-            apikey: function(req, authOrSecDef, scopes, cb) {
-                if(req.headers['x-auth-token'] === apikey) {
-                    return cb();
-                }
-
-                cb(new Error('Failed to authenticate'));
+            jwt: function(req, authOrSecDef, scopes, cb) {
+                jwt(config.jwtSecret, req, cb);
             }
         }));
 
@@ -65,31 +67,15 @@ module.exports = function(cb) {
 
         // important! Do not eliminate `next` as that will disable error handling
         app.use(function(err, req, res, next) {
+            // TODO: this should handle cases beyond 403
             res.status(403).json({
                 message: err.message,
                 payload: err.results
             });
         });
 
-        process.on('exit', terminator);
-
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
-        'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
-        ].forEach(function(element) {
-            process.on(element, function() { terminator(element); });
-        });
+        terminator();
 
         cb(app);
     });
 };
-
-function terminator(sig) {
-    if(typeof sig === 'string') {
-        console.log('%s: Received %s - terminating Node server ...',
-            Date(Date.now()), sig);
-
-        process.exit(1);
-    }
-
-    console.log('%s: Node server stopped.', Date(Date.now()) );
-}

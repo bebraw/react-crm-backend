@@ -21,7 +21,7 @@ module.exports = {
     ],
     security: [
         {
-            apikey: []
+            jwt: []
         }
     ],
     paths: require('./paths'),

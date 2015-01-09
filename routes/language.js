@@ -1,5 +1,5 @@
 'use strict';
-var swaggerify = require('./swaggerify');
+var swaggerify = require('swaggerify').routes;
 var languages = require('../spec/constants/languages');
 
 

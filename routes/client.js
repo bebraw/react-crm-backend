@@ -1,5 +1,5 @@
 'use strict';
-var swaggerify = require('./swaggerify');
+var swaggerify = require('swaggerify').routes;
 
 var Client = require('../models').Client;
 
