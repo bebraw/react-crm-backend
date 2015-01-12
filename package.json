@@ -26,7 +26,8 @@
     "annostring": "^0.2.2",
     "annozip": "^0.2.4",
     "axios": "^0.4.2",
-    "bluebird": "^2.6.2"
+    "bluebird": "^2.6.2",
+    "concat-map": "0.0.1"
   },
   "repository": {
     "type": "git",

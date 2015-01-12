@@ -3,6 +3,8 @@
 var assert = require('assert');
 var url = require('url');
 
+var concatMap = require('concat-map');
+var fp = require('annofp');
 var axios = require('axios');
 var Promise = require('bluebird');
 
@@ -11,13 +13,14 @@ var models = require('../models')(config.database.test);
 var server = require('../server');
 var swaggerClient = require('../lib/swagger2client');
 
+var tests = require('require-dir')();
 
-tests();
 
-function tests() {
+main();
+
+function main() {
     var port = 1351;
     var root = 'http://localhost:' + port;
-    var testcases = [testPostInvoice];
 
     server(function(app) {
         var s = app.listen(port);
@@ -33,12 +36,13 @@ function tests() {
                     'Authorization': 'Bearer ' + token
                 }
             });
+            var testcases = getTestcases(tests);
 
             testcases = testcases.map(function(fn) {
                 return Promise.using(models.sequelize.sync({
                     force: true
                 }), function() {
-                    return fn(client);
+                    return fn(assert, client);
                 });
             });
 
@@ -53,6 +57,10 @@ function tests() {
             s.close();
         });
     });
+}
+
+function getTestcases(tests) {
+    return concatMap(fp.values(tests), fp.values);
 }
 
 function getSchema(url) {
@@ -70,23 +78,3 @@ function getToken(url) {
         }).catch(reject);
     });
 }
-
-function testPostInvoice(client) {
-    return client.invoices.post().then(function() {
-        assert(false, 'Posted invoice even though shouldn\'t');
-    }).catch(function() {
-        assert(true, 'Failed to post invoice as expected');
-    });
-}
-
-/* TODO:
-    GET invoice (all/specific/sortBy/pagination/search)
-    POST invoice (ok/fail)
-    PUT invoice (allow only for non-accepted)
-    DELETE invoice (allow only for non-accepted)
-
-    GET client (all/specific/sortBy/pagination/search)
-    POST client (ok/fail)
-    PUT client
-    DELETE client
-*/
