@@ -55,3 +55,15 @@ function testPostInvoice(root) {
 function authenticate(root) {
     return axios.post(url.resolve(root, 'authenticate'));
 }
+
+/* TODO:
+    GET invoice (all/specific/sortBy/pagination/search)
+    POST invoice (ok/fail)
+    PUT invoice (allow only for non-accepted)
+    DELETE invoice (allow only for non-accepted)
+
+    GET client (all/specific/sortBy/pagination/search)
+    POST client (ok/fail)
+    PUT client
+    DELETE client
+*/
