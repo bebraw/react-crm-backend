@@ -9,7 +9,7 @@ var models = require('../models')(config.database[env]);
 var server = require('../server');
 
 
-server(function(app) {
+server(models, function(app) {
     var ip = config.ip;
     var port = config.port;
 

@@ -22,11 +22,11 @@ function main() {
     var port = 1351;
     var root = 'http://localhost:' + port;
 
-    server(function(app) {
+    server(models, function(app) {
         var s = app.listen(port);
 
         Promise.join(
-            getSchema(url.resolve(root, 'v1/schema')),
+            getData(url.resolve(root, 'v1/schema')),
             getToken(url.resolve(root, 'authenticate')),
         function(schema, token) {
             var client = swaggerClient({
@@ -63,9 +63,9 @@ function getTestcases(tests) {
     return concatMap(fp.values(tests), fp.values);
 }
 
-function getSchema(url) {
+function getData(url, o) {
     return new Promise(function(resolve, reject) {
-        axios.get(url).then(function(res) {
+        axios.get(url, o).then(function(res) {
             resolve(res.data);
         }).catch(reject);
     });

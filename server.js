@@ -1,4 +1,6 @@
 'use strict';
+var fp = require('annofp');
+var is = require('annois');
 var express = require('express');
 var cors = require('cors');
 var helmet = require('helmet');
@@ -8,13 +10,16 @@ var bodyParser = require('body-parser');
 var swaggerTools = require('swagger-tools');
 var terminator = require('t1000');
 
-var auth = require('./routes/auth');
 var config = require('./config');
 var jwt = require('./lib/jwt');
 var spec = require('./spec');
 
 
-module.exports = function(cb) {
+module.exports = function(models, cb) {
+    var routes = require('./routes')({
+        models: models
+    });
+
     var app = express();
 
     var env = process.env.NODE_ENV || 'development';
@@ -32,7 +37,7 @@ module.exports = function(cb) {
         extended: false
     }));
 
-    app.use(auth());
+    app.use(routes.auth());
 
     // https://github.com/apigee-127/swagger-tools/blob/master/docs/QuickStart.md
     swaggerTools.initializeMiddleware(spec, function(middleware) {
@@ -48,8 +53,10 @@ module.exports = function(cb) {
             validateResponse: true
         }));
 
+console.log('controllers', getControllers(routes));
+
         app.use(middleware.swaggerRouter({
-            controllers: './routes',
+            controllers: getControllers(routes),
             useStubs: process.env.NODE_ENV === 'development'
         }));
 
@@ -79,3 +86,17 @@ module.exports = function(cb) {
         cb(app);
     });
 };
+
+function getControllers(routes) {
+    var ret = {};
+
+    fp.each(function(route, v) {
+        if(is.object(v)) {
+            fp.each(function(k, v) {
+                ret[route + '_' + k] = v;
+            }, v);
+        }
+    }, routes);
+
+    return ret;
+}

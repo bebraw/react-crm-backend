@@ -5,6 +5,9 @@
   "private": true,
   "version": "0.2.1",
   "dependencies": {
+    "annofp": "^0.3.0",
+    "annoinject": "^0.2.0",
+    "annois": "^0.3.0",
     "body-parser": "^1.10.0",
     "cors": "^2.5.2",
     "debug": "^2.1.1",
@@ -22,7 +25,6 @@
     "t1000": "^0.1.0"
   },
   "devDependencies": {
-    "annofp": "^0.3.0",
     "annostring": "^0.2.2",
     "annozip": "^0.2.4",
     "axios": "^0.4.2",
