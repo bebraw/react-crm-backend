@@ -22,7 +22,8 @@
     "t1000": "^0.1.0"
   },
   "devDependencies": {
-    "axios": "^0.4.2"
+    "axios": "^0.4.2",
+    "bluebird": "^2.6.2"
   },
   "repository": {
     "type": "git",
