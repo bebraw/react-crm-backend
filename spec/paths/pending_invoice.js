@@ -3,14 +3,14 @@
 
 module.exports = {
     'get': {
-        'description': 'The Invoices endpoint returns information about invoices the user is affiliated with. The response includes basic details of each invoice, such as sender and receiver information, and includes information about its state in chronological order.\n',
+        'description': 'This endpoint returns information about invoices that are pending (ie. not sent yet). The response includes basic details of each invoice, such as sender and receiver information.\n',
         'responses': {
             '200': {
-                'description': 'An array of invoices',
+                'description': 'An array of pending invoices',
                 'schema': {
                     'type': 'array',
                     'items': {
-                        '$ref': '#/definitions/Invoice'
+                        '$ref': '#/definitions/InvoicePending'
                     }
                 }
             },
@@ -30,7 +30,7 @@ module.exports = {
                 'in': 'body',
                 'description': 'The Invoice JSON you want to POST',
                 'schema': {
-                    '$ref': '#/definitions/Invoice'
+                    '$ref': '#/definitions/InvoicePending'
                 },
                 'required': true
             }
@@ -58,7 +58,7 @@ module.exports = {
                 'in': 'body',
                 'description': 'The Invoice JSON you want to PUT',
                 'schema': {
-                    '$ref': '#/definitions/Invoice'
+                    '$ref': '#/definitions/InvoicePending'
                 },
                 'required': true
             }

@@ -3,18 +3,18 @@ var swaggerify = require('swaggerify').routes;
 
 
 module.exports = function(imports) {
-    var Invoice = imports.models.Invoice;
+    var PendingInvoice = imports.models.PendingInvoice;
 
-    return swaggerify('invoice', {
+    return swaggerify('pending_invoice', {
         get: function(req, res) {
-            Invoice.findAll().then(function(invoices) {
+            PendingInvoice.findAll().then(function(invoices) {
                 res.json(invoices);
             });
         },
         post: function(req, res) {
             var body = req.swagger.params.body.value;
 
-            Invoice.create(body).then(function(invoice) {
+            PendingInvoice.create(body).then(function(invoice) {
                 res.json({
                     id: invoice.dataValues.id
                 });
@@ -26,7 +26,7 @@ module.exports = function(imports) {
 
             delete body.id;
 
-            Invoice.update(body, {
+            PendingInvoice.update(body, {
                 where: {
                     id: id
                 }
