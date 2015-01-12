@@ -53,8 +53,6 @@ module.exports = function(models, cb) {
             validateResponse: true
         }));
 
-console.log('controllers', getControllers(routes));
-
         app.use(middleware.swaggerRouter({
             controllers: getControllers(routes),
             useStubs: process.env.NODE_ENV === 'development'
