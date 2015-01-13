@@ -11,8 +11,7 @@
 exports.get = function(assert, client) {
     return client.pendingInvoices.get().then(function(res) {
         assert(res.data.length === 0, 'Failed to get invoices as expected');
-    }).catch(function(err) {
-        console.error(err);
+    }).catch(function() {
         assert(true, 'Failed to get invoices as expected');
     });
 };
@@ -29,7 +28,7 @@ exports.put = function(assert, client) {
     return client.pendingInvoices.put().then(function() {
         assert(false, 'Updated invoice even though shouldn\'t');
     }).catch(function() {
-        assert(true, 'Failed to update as expected');
+        assert(true, 'Failed to update invoice as expected');
     });
 };
 

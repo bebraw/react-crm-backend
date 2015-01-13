@@ -9,8 +9,7 @@
 exports.get = function(assert, client) {
     return client.sentInvoices.get().then(function(res) {
         assert(res.data.length === 0, 'Failed to get invoices as expected');
-    }).catch(function(err) {
-        console.error(err);
+    }).catch(function() {
         assert(true, 'Failed to get invoices as expected');
     });
 };
