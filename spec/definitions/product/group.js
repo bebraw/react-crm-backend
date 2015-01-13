@@ -14,17 +14,7 @@ module.exports = {
         'description': {
             'type': 'string'
         },
-        'createdAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the group was created at',
-            'readOnly': true
-        },
-        'updatedAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the group was updated',
-            'readOnly': true
-        }
+        'createdAt': require('../created'),
+        'updatedAt': require('../updated')
     }
 };

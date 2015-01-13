@@ -45,17 +45,7 @@ module.exports = {
             'description': 'Amount of days to pay the bill',
             'default': 8
         },
-        'createdAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the invoice was created at',
-            'readOnly': true
-        },
-        'updatedAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the invoice was updated',
-            'readOnly': true
-        }
+        'createdAt': require('../created'),
+        'updatedAt': require('../updated')
     }
 };

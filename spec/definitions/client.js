@@ -44,17 +44,7 @@ module.exports = {
             'type': 'string',
             'enum': languages
         },
-        'createdAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the invoice was created at',
-            'readOnly': true
-        },
-        'updatedAt': {
-            'type': 'string',
-            'format': 'date-time',
-            'description': 'Day in which the invoice was updated',
-            'readOnly': true
-        }
+        'createdAt': require('./created'),
+        'updatedAt': require('./updated')
     }
 };
