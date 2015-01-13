@@ -16,11 +16,20 @@ exports.get = function(assert, client) {
     });
 };
 
-exports.post = function(assert, client) {
+exports.postInvalid = function(assert, client) {
     return client.clients.post().then(function() {
         assert(false, 'Posted client even though shouldn\'t');
     }).catch(function() {
         assert(true, 'Failed to post client as expected');
+    });
+};
+
+exports.postValid = function(assert, client) {
+    // TODO: generate a valid client based on schema
+    return client.clients.post({}).then(function() {
+        assert(true, 'Posted client as expected');
+    }).catch(function(err) {
+        assert(false, 'Failed to post client', err);
     });
 };
 
