@@ -32,7 +32,7 @@ module.exports = {
             'type': 'string'
         },
         'companyId': {
-            '$ref': '#/definitions/Id'
+            'type': 'string'
         },
         'iban': {
             'type': 'string'

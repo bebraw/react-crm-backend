@@ -9,8 +9,8 @@ module.exports = function(sequelize, DataTypes) {
             phone: DataTypes.STRING,
             companyId: DataTypes.STRING,
             iban: DataTypes.STRING,
-            bic: DataTypes.STRING
-            // TODO: language association
+            bic: DataTypes.STRING,
+            language: DataTypes.STRING
         }
     );
 
