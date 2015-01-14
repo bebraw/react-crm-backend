@@ -16,7 +16,7 @@ config.database.test.logging = fp.noop;
 
 var models = require('../models')(config.database.test);
 var server = require('../server');
-var swaggerClient = require('../lib/swagger2client');
+var swaggerClient = require('swagger2client');
 
 var suites = require('require-dir')();
 
