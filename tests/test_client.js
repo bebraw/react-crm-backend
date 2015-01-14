@@ -31,12 +31,9 @@ module.exports = function(assert, client) {
             });
         },
         postValid: function() {
-            var postSchema = resource.post.parameters[0].schema;
+            var schema = resource.post.parameters[0].schema;
 
-            var properties = schema2object.getRequiredProperties(postSchema);
-            var parameters = schema2object.properties2object(properties);
-
-            return resource.post(parameters).then(function() {
+            return resource.post(getParameters(schema)).then(function() {
                 assert(true, 'Posted client as expected');
             }).catch(function(err) {
                 assert(false, 'Failed to post client', err);
@@ -52,3 +49,9 @@ module.exports = function(assert, client) {
         }
     };
 };
+
+function getParameters(schema) {
+    var properties = schema2object.getRequiredProperties(schema);
+
+    return schema2object.properties2object(properties);
+}
