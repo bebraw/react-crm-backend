@@ -30,7 +30,7 @@ module.exports = function(assert, client) {
         postValid: function() {
             var schema = resource.post.parameters[0].schema;
 
-            return resource.post(getParameters(schema)).then(function(d) {
+            return resource.post(getParameters(schema)).then(function() {
                 assert(true, 'Posted client as expected');
             }).catch(function(err) {
                 assert(false, 'Failed to post client', err);
