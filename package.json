@@ -32,7 +32,8 @@
     "axios": "^0.4.2",
     "bluebird": "^2.6.2",
     "cli-color": "^0.3.2",
-    "resolve-swagger-refs": "^0.1.1"
+    "resolve-swagger-refs": "^0.1.2",
+    "schema2object": "^0.2.0"
   },
   "repository": {
     "type": "git",

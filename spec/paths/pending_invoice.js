@@ -39,7 +39,11 @@ module.exports = {
             '200': {
                 'description': 'Id of the created invoice',
                 'schema': {
-                    '$ref': '#/definitions/Id'
+                    'properties': {
+                        'id': {
+                            '$ref': '#/definitions/Id'
+                        }
+                    }
                 }
             },
             'default': {
@@ -67,7 +71,11 @@ module.exports = {
             '200': {
                 'description': 'Id of the updated invoice',
                 'schema': {
-                    '$ref': '#/definitions/Id'
+                    'properties': {
+                        'id': {
+                            '$ref': '#/definitions/Id'
+                        }
+                    }
                 }
             },
             'default': {

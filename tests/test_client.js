@@ -1,4 +1,5 @@
 'use strict';
+var schema2object = require('schema2object');
 
 
 /* TODO:
@@ -32,15 +33,11 @@ module.exports = function(assert, client) {
         postValid: function() {
             var postSchema = resource.post.parameters[0].schema;
 
-            // TODO: generate a valid client based on schema
-            // resource.post.parameters.schema / description etc.
-            // attach post.parameters.schema + resolve ref
-            // pass schema to generator + attach generated object to body
-            return resource.post({}).then(function() {
-                // make sure id was received (post.responses.200.schema)
-                assert(true, 'Posted client as expected');
+            var properties = schema2object.getRequiredProperties(postSchema);
+            var parameters = schema2object.properties2object(properties);
 
-                // perform get with id now
+            return resource.post(parameters).then(function() {
+                assert(true, 'Posted client as expected');
             }).catch(function(err) {
                 assert(false, 'Failed to post client', err);
             });
