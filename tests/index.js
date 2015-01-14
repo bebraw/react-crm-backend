@@ -58,7 +58,9 @@ function main() {
                     var name = suiteName + '.' + test[0];
                     var fn = test[1];
 
-                    fn().then(function() {
+                    Promise.using(models.sequelize.sync({
+                        force: true
+                    }), fn).then(function() {
                         console.log(clc.green(name + ' ' + 'PASSED'));
 
                         cb();
