@@ -30,8 +30,10 @@ module.exports = function(assert, client) {
             });
         },
         postValid: function() {
+            var postSchema = resource.post.parameters[0].schema;
+
             // TODO: generate a valid client based on schema
-            // client.clients.post.parameters.schema / description etc.
+            // resource.post.parameters.schema / description etc.
             // attach post.parameters.schema + resolve ref
             // pass schema to generator + attach generated object to body
             return resource.post({}).then(function() {
