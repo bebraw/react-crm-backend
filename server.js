@@ -15,15 +15,15 @@ var jwt = require('./lib/jwt');
 var spec = require('./spec');
 
 
-module.exports = function(models, cb) {
+module.exports = function(o, cb) {
+    var models = o.models;
     var routes = require('./routes')({
         models: models
     });
 
     var app = express();
 
-    var env = process.env.NODE_ENV || 'development';
-    if(env === 'development') {
+    if(o.logExtra) {
         app.use(errorHandler());
         app.use(morgan('dev'));
     }
@@ -55,7 +55,7 @@ module.exports = function(models, cb) {
 
         app.use(middleware.swaggerRouter({
             controllers: getControllers(routes),
-            useStubs: process.env.NODE_ENV === 'development'
+            useStubs: o.useStubs
         }));
 
         app.use(middleware.swaggerUi({

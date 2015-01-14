@@ -3,10 +3,12 @@
 var assert = require('assert');
 var url = require('url');
 
-var concatMap = require('concat-map');
+var async = require('async');
 var fp = require('annofp');
 var axios = require('axios');
 var Promise = require('bluebird');
+var zip = require('annozip');
+var clc = require('cli-color');
 
 var config = require('../config');
 
@@ -16,7 +18,7 @@ var models = require('../models')(config.database.test);
 var server = require('../server');
 var swaggerClient = require('../lib/swagger2client');
 
-var tests = require('require-dir')();
+var suites = require('require-dir')();
 
 
 main();
@@ -25,7 +27,9 @@ function main() {
     var port = 1351;
     var root = 'http://localhost:' + port;
 
-    server(models, function(app) {
+    server({
+        models: models
+    }, function(app) {
         var s = app.listen(port);
 
         Promise.join(
@@ -39,19 +43,31 @@ function main() {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            var testcases = getTestcases(tests);
-
-            testcases = testcases.map(function(fn) {
-                return Promise.using(models.sequelize.sync({
-                    force: true
-                }), function() {
-                    return fn(assert, client);
-                });
+            var testSuites = getTestSuites({
+                suites: suites,
+                client: client,
+                assert: assert
             });
 
-            Promise.all(testcases).catch(function(err) {
-                console.error(err);
-            }).finally(function() {
+            async.eachSeries(zip(testSuites), function(suite, cb) {
+                var suiteName = suite[0];
+                var tests = suite[1];
+
+                async.eachSeries(zip(tests), function(test, cb) {
+                    var name = suiteName + '.' + test[0];
+                    var fn = test[1];
+
+                    fn().then(function() {
+                        console.log(clc.green(name + ' ' + 'PASSED'));
+
+                        cb();
+                    }).catch(function() {
+                        console.error(clc.red(name + ' ' + 'FAILED'));
+
+                        cb();
+                    });
+                }, cb);
+            }, function() {
                 s.close();
             });
         }).catch(function(err) {
@@ -62,8 +78,15 @@ function main() {
     });
 }
 
-function getTestcases(tests) {
-    return concatMap(fp.values(tests), fp.values);
+function getTestSuites(o) {
+    // TODO: assert against possibly missing values (-> annotate)
+    var suites = o.suites;
+    var client = o.client;
+    var assert = o.assert;
+
+    return fp.map(function(name, suite) {
+        return suite(assert, client);
+    }, suites);
 }
 
 function getData(url, o) {

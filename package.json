@@ -28,9 +28,10 @@
   "devDependencies": {
     "annostring": "^0.2.2",
     "annozip": "^0.2.4",
+    "async": "^0.9.0",
     "axios": "^0.4.2",
     "bluebird": "^2.6.2",
-    "concat-map": "0.0.1"
+    "cli-color": "^0.3.2"
   },
   "repository": {
     "type": "git",
