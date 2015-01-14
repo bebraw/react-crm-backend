@@ -43,6 +43,7 @@ function main() {
                     'Authorization': 'Bearer ' + token
                 }
             });
+
             var testSuites = getTestSuites({
                 suites: suites,
                 client: client,
