@@ -6,12 +6,9 @@ var extend = require('xtend');
 var fp = require('annofp');
 
 
-/* TODO:
-    GET client (sortBy/pagination/search)
-*/
-
 module.exports = function(assert, client) {
     var resource = client.clients;
+    var postSchema = resource.post.parameters[0].schema;
 
     return {
         get: function() {
@@ -36,9 +33,7 @@ module.exports = function(assert, client) {
             });
         },
         postValid: function() {
-            var schema = resource.post.parameters[0].schema;
-
-            return resource.post(getParameters(schema)).then(function() {
+            return resource.post(getParameters(postSchema)).then(function() {
                 assert(true, 'Posted client as expected');
             }).catch(function(err) {
                 assert(false, 'Failed to post client', err);
@@ -52,11 +47,10 @@ module.exports = function(assert, client) {
             });
         },
         postAndPut: function() {
-            var schema = resource.post.parameters[0].schema;
-            var putParameters = getParameters(schema);
+            var putParameters = getParameters(postSchema);
 
             return waterfall([
-                resource.post.bind(null, getParameters(schema)),
+                resource.post.bind(null, getParameters(postSchema)),
                 attachData.bind(null, putParameters),
                 resource.put.bind(null),
                 resource.get.bind(null)
@@ -71,6 +65,31 @@ module.exports = function(assert, client) {
             }).catch(function() {
                 assert(false, 'Didn\'t update client even though should have');
             });
+        },
+        ascendingSort: function() {
+            var firstItem = getParameters(postSchema);
+            var secondItem = getParameters(postSchema);
+
+            // TODO: assert ordering
+        },
+        descendingSort: function() {
+            var firstItem = getParameters(postSchema);
+            var secondItem = getParameters(postSchema);
+
+            // TODO: assert ordering
+        },
+        pagination: function() {
+            var firstItem = getParameters(postSchema);
+            var secondItem = getParameters(postSchema);
+
+            // TODO: assert
+        },
+        search: function() {
+            // 1. generate items to sort by some feature
+            var firstItem = getParameters(postSchema);
+            var secondItem = getParameters(postSchema);
+
+            // TODO: assert that the correct item was found
         }
     };
 };
