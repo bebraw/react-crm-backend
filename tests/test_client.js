@@ -23,8 +23,15 @@ module.exports = function(assert, client) {
         postInvalid: function() {
             return resource.post().then(function() {
                 assert(false, 'Posted client even though shouldn\'t');
-            }).catch(function() {
+            }).catch(function(res) {
+                var data = res.data;
+
                 assert(true, 'Failed to post client as expected');
+
+                assert.equal(res.status, 422);
+                assert(data.message, 'Error message exists');
+                assert(data.errors, 'Errors exist');
+                assert(data.warnings, 'Warnings exist');
             });
         },
         postValid: function() {

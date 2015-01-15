@@ -1,4 +1,5 @@
 'use strict';
+var extend = require('xtend');
 var fp = require('annofp');
 var is = require('annois');
 var express = require('express');
@@ -66,17 +67,20 @@ module.exports = function(o, cb) {
         app.use(function(req, res) {
             res.status(404).json({
                 message: 'NOT_FOUND',
-                payload: {}
+                errors: [],
+                warnings: []
             });
         });
 
         // important! Do not eliminate `next` as that will disable error handling
         app.use(function(err, req, res, next) {
-            // TODO: this should handle cases beyond 403
-            res.status(403).json({
-                message: err.message,
-                payload: err.results
-            });
+            if(err.results) {
+                return res.status(422).json(extend(err.results, {
+                    message: err.message
+                }));
+            }
+
+            res.status(500).json({});
         });
 
         terminator();
