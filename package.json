@@ -3,7 +3,7 @@
   "description": "",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "dependencies": {
     "annofp": "^0.3.0",
     "annoinject": "^0.2.0",
