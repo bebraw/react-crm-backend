@@ -3,6 +3,7 @@ var Promise = require('bluebird');
 var schema2object = require('schema2object');
 var waterfall = require('promise-waterfall');
 var extend = require('xtend');
+var fp = require('annofp');
 
 
 /* TODO:
@@ -59,7 +60,13 @@ module.exports = function(assert, client) {
                 attachData.bind(null, putParameters),
                 resource.put.bind(null),
                 resource.get.bind(null)
-            ]).then(function() {
+            ]).then(function(res) {
+                var item = res.data[0];
+
+                fp.each(function(k, v) {
+                    assert.equal(v, item[k], k + ' fields are equal');
+                }, putParameters);
+
                 assert(true, 'Updated client as expected');
             }).catch(function() {
                 assert(false, 'Didn\'t update client even though should have');
