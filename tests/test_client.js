@@ -70,8 +70,8 @@ module.exports = function(assert, client) {
             var firstItem = getParameters(postSchema);
             var secondItem = getParameters(postSchema);
 
-            firstItem.name = 'a';
-            secondItem.name = 'b';
+            firstItem.name = 'b';
+            secondItem.name = 'a';
 
             return waterfall([
                 resource.post.bind(null, firstItem),
@@ -83,8 +83,8 @@ module.exports = function(assert, client) {
                 var data = res.data;
 
                 assert.equal(data.length, 2, 'Received the right amount of items');
-                assert.equal(data[0].name, firstItem.name, 'Received the right first name');
-                assert.equal(data[1].name, secondItem.name, 'Received the right second name');
+                assert.equal(data[0].name, secondItem.name, 'Received the right first name');
+                assert.equal(data[1].name, firstItem.name, 'Received the right second name');
             }).catch(function() {
                 assert(false, 'Didn\'t get ascending sort');
             });
