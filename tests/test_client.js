@@ -96,7 +96,21 @@ module.exports = function(assert, client) {
             firstItem.name = 'a';
             secondItem.name = 'b';
 
-            // TODO: assert ordering
+            return waterfall([
+                resource.post.bind(null, firstItem),
+                resource.post.bind(null, secondItem),
+                resource.get.bind(null, {
+                    sort: '-name'
+                })
+            ]).then(function(res) {
+                var data = res.data;
+
+                assert.equal(data.length, 2, 'Received the right amount of items');
+                assert.equal(data[0].name, secondItem.name, 'Received the right first name');
+                assert.equal(data[1].name, firstItem.name, 'Received the right second name');
+            }).catch(function() {
+                assert(false, 'Didn\'t get descending sort');
+            });
         },
         pagination: function() {
             var firstItem = getParameters(postSchema);
@@ -104,6 +118,7 @@ module.exports = function(assert, client) {
 
             // TODO: assert
         },
+        // TODO: sort + paginate
         search: function() {
             // 1. generate items to sort by some feature
             var firstItem = getParameters(postSchema);
@@ -111,6 +126,8 @@ module.exports = function(assert, client) {
 
             // TODO: assert that the correct item was found
         }
+        // TODO: sort + search
+        // TODO: sort + paginate
     };
 };
 
