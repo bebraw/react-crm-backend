@@ -11,6 +11,13 @@ module.exports = {
                 'description': 'Name of field to sort with. Add - in front for inverse',
                 'required': false,
                 'type': 'string'
+            },
+            {
+                'in': 'query',
+                'name': 'count',
+                'description': 'If set, count will be returned in `Total-Count`',
+                'required': false,
+                'type': 'boolean'
             }
         ],
         'responses': {
@@ -20,6 +27,12 @@ module.exports = {
                     'type': 'array',
                     'items': {
                         '$ref': '#/definitions/Client'
+                    }
+                },
+                'headers': {
+                    'Total-Count': {
+                        'description': 'Total count',
+                        'type': 'integer'
                     }
                 }
             },

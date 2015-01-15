@@ -12,7 +12,9 @@ module.exports = function(imports) {
             Client.findAll({
                 order: convertToOrder(sortBy)
             }).then(function(clients) {
-                res.json(clients);
+                res.header({
+                    'Total-Count': 0
+                }).json(clients);
             });
         },
         post: function(req, res) {
