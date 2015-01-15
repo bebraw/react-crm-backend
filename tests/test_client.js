@@ -112,6 +112,28 @@ module.exports = function(assert, client) {
                 assert(false, 'Didn\'t get descending sort');
             });
         },
+        zeroCount: function() {
+            return resource.get({
+                count: true
+            }).then(function(res) {
+                assert.equal(res.headers['total-count'], 0, 'Received the right count');
+            }).catch(function() {
+                assert(false, 'Didn\'t get count');
+            });
+        },
+        count: function() {
+            return waterfall([
+                resource.post.bind(null, getParameters(postSchema)),
+                resource.post.bind(null, getParameters(postSchema)),
+                resource.get.bind(null, {
+                    count: true
+                })
+            ]).then(function(res) {
+                assert.equal(res.headers['total-count'], 2, 'Received the right count');
+            }).catch(function() {
+                assert(false, 'Didn\'t get count');
+            });
+        },
         pagination: function() {
             var firstItem = getParameters(postSchema);
             var secondItem = getParameters(postSchema);
