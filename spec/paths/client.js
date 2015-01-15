@@ -4,6 +4,15 @@
 module.exports = {
     'get': {
         'description': 'The Clients endpoint returns information about clients the user is affiliated with. The response includes basic details of each client, such as name, in chronological order.\n',
+        'parameters': [
+            {
+                'in': 'query',
+                'name': 'sortBy',
+                'description': 'Name of field to sort with. Add - in front for inverse',
+                'required': false,
+                'type': 'string'
+            }
+        ],
         'responses': {
             '200': {
                 'description': 'An array of clients',

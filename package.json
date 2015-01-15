@@ -32,8 +32,8 @@
     "bluebird": "^2.6.2",
     "cli-color": "^0.3.2",
     "promise-waterfall": "^0.1.0",
-    "swagger2client": "^0.1.0",
-    "schema2object": "^0.2.0"
+    "schema2object": "^0.2.0",
+    "swagger2client": "^0.1.1"
   },
   "repository": {
     "type": "git",

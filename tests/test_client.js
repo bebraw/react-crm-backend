@@ -77,7 +77,7 @@ module.exports = function(assert, client) {
                 resource.post.bind(null, firstItem),
                 resource.post.bind(null, secondItem),
                 resource.get.bind(null, {
-                    sort: 'name'
+                    sortBy: 'name'
                 })
             ]).then(function(res) {
                 var data = res.data;
@@ -100,7 +100,7 @@ module.exports = function(assert, client) {
                 resource.post.bind(null, firstItem),
                 resource.post.bind(null, secondItem),
                 resource.get.bind(null, {
-                    sort: '-name'
+                    sortBy: '-name'
                 })
             ]).then(function(res) {
                 var data = res.data;

@@ -7,7 +7,11 @@ module.exports = function(imports) {
 
     return swaggerify('client', {
         get: function(req, res) {
-            Client.findAll().then(function(clients) {
+            var sortBy = req.swagger.params.sortBy.value;
+
+            Client.findAll({
+                order: convertToOrder(sortBy)
+            }).then(function(clients) {
                 res.json(clients);
             });
         },
@@ -46,3 +50,15 @@ module.exports = function(imports) {
         }
     });
 };
+
+function convertToOrder(str) {
+    if(!str) {
+        return;
+    }
+
+    if(str.indexOf('-') === 0) {
+        return '`' + str.slice(1) + '` DESC';
+    }
+
+    return str;
+}
