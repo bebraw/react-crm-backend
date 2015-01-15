@@ -70,11 +70,31 @@ module.exports = function(assert, client) {
             var firstItem = getParameters(postSchema);
             var secondItem = getParameters(postSchema);
 
-            // TODO: assert ordering
+            firstItem.name = 'a';
+            secondItem.name = 'b';
+
+            return waterfall([
+                resource.post.bind(null, firstItem),
+                resource.post.bind(null, secondItem),
+                resource.get.bind(null, {
+                    sort: 'name'
+                })
+            ]).then(function(res) {
+                var data = res.data;
+
+                assert.equal(data.length, 2, 'Received the right amount of items');
+                assert.equal(data[0].name, firstItem.name, 'Received the right first name');
+                assert.equal(data[1].name, secondItem.name, 'Received the right second name');
+            }).catch(function() {
+                assert(false, 'Didn\'t get ascending sort');
+            });
         },
         descendingSort: function() {
             var firstItem = getParameters(postSchema);
             var secondItem = getParameters(postSchema);
+
+            firstItem.name = 'a';
+            secondItem.name = 'b';
 
             // TODO: assert ordering
         },
