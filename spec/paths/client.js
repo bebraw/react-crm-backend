@@ -11,6 +11,22 @@ module.exports = {
                 'description': 'Name of field to sort with. Add - in front for inverse',
                 'required': false,
                 'type': 'string'
+            },
+            {
+                'in': 'query',
+                'name': 'page',
+                'description': 'The index of page to show',
+                'required': false,
+                'type': 'integer',
+                'default': 0
+            },
+            {
+                'in': 'query',
+                'name': 'perPage',
+                'description': 'The amount of clients per page',
+                'required': false,
+                'type': 'integer',
+                'default': 10
             }
         ],
         'responses': {
