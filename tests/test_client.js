@@ -134,7 +134,24 @@ module.exports = function(assert, client) {
             var firstItem = getParameters(postSchema);
             var secondItem = getParameters(postSchema);
 
-            // TODO: assert
+            firstItem.name = 'b';
+            secondItem.name = 'a';
+
+            return waterfall([
+                resource.post.bind(null, firstItem),
+                resource.post.bind(null, secondItem),
+                resource.get.bind(null, {
+                    page: 0,
+                    perPage: 1
+                })
+            ]).then(function(res) {
+                var data = res.data;
+
+                assert.equal(data.length, 1, 'Received the right amount of items');
+                assert.equal(data[0].name, firstItem.name, 'Received the right first name');
+            }).catch(function() {
+                assert(false, 'Didn\'t get paginated items');
+            });
         },
         // TODO: sort + paginate
         search: function() {
