@@ -113,9 +113,7 @@ module.exports = function(assert, client) {
             });
         },
         zeroCount: function() {
-            return resource.get({
-                count: true
-            }).then(function(res) {
+            return resource.get().then(function(res) {
                 assert.equal(res.headers['total-count'], 0, 'Received the right count');
             }).catch(function() {
                 assert(false, 'Didn\'t get count');
@@ -125,9 +123,7 @@ module.exports = function(assert, client) {
             return waterfall([
                 resource.post.bind(null, getParameters(postSchema)),
                 resource.post.bind(null, getParameters(postSchema)),
-                resource.get.bind(null, {
-                    count: true
-                })
+                resource.get.bind(null)
             ]).then(function(res) {
                 assert.equal(res.headers['total-count'], 2, 'Received the right count');
             }).catch(function() {

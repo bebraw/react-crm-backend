@@ -9,12 +9,10 @@ module.exports = function(imports) {
         get: function(req, res) {
             var sortBy = req.swagger.params.sortBy.value;
 
-            Client.findAll({
+            Client.findAndCount({
                 order: convertToOrder(sortBy)
-            }).then(function(clients) {
-                res.header({
-                    'Total-Count': 0
-                }).json(clients);
+            }).then(function(result) {
+                res.header('Total-Count', result.count).json(result.rows);
             });
         },
         post: function(req, res) {
