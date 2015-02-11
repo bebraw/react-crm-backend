@@ -17,7 +17,7 @@ module.exports = function(imports) {
                 limit: perPage,
                 offset: page * perPage
             }).then(function(result) {
-                res.header('Total-Count', result.count).json(result.rows);
+                res.header('Total-Count', result.count).json(convertToObjects(result.rows));
             });
         },
         post: function(req, res) {
@@ -66,4 +66,10 @@ function convertToOrder(str) {
     }
 
     return str;
+}
+
+function convertToObjects(results) {
+    return results.map(function(result) {
+        return result.dataValues;
+    });
 }

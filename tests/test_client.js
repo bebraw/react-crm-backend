@@ -1,5 +1,6 @@
 'use strict';
 var Promise = require('bluebird');
+var generators = require('annogenerate');
 var schema2object = require('schema2object');
 var waterfall = require('promise-waterfall');
 var extend = require('xtend');
@@ -7,24 +8,25 @@ var fp = require('annofp');
 
 
 module.exports = function(assert, client) {
-    var resource = client.clients;
+    var resourceName = 'client';
+    var resource = client[resourceName + 's'];
     var postSchema = resource.post.parameters[0].schema;
 
     return {
         get: function() {
             return resource.get().then(function(res) {
-                assert(res.data.length === 0, 'Failed to get clients as expected');
+                assert(res.data.length === 0, 'Failed to get ' + resourceName + 's as expected');
             }).catch(function() {
-                assert(true, 'Failed to get clients as expected');
+                assert(true, 'Failed to get ' + resourceName + 's as expected');
             });
         },
         postInvalid: function() {
             return resource.post().then(function() {
-                assert(false, 'Posted client even though shouldn\'t');
+                assert(false, 'Posted ' + resourceName + ' even though shouldn\'t');
             }).catch(function(res) {
                 var data = res.data;
 
-                assert(true, 'Failed to post client as expected');
+                assert(true, 'Failed to post ' + resourceName + ' as expected');
 
                 assert.equal(res.status, 422);
                 assert(data.message, 'Error message exists');
@@ -34,16 +36,16 @@ module.exports = function(assert, client) {
         },
         postValid: function() {
             return resource.post(getParameters(postSchema)).then(function() {
-                assert(true, 'Posted client as expected');
+                assert(true, 'Posted ' + resourceName + ' as expected');
             }).catch(function(err) {
-                assert(false, 'Failed to post client', err);
+                assert(false, 'Failed to post ' + resourceName, err);
             });
         },
         put: function() {
             return resource.put().then(function() {
-                assert(false, 'Updated client even though shouldn\'t');
+                assert(false, 'Updated ' + resourceName + ' even though shouldn\'t');
             }).catch(function() {
-                assert(true, 'Failed to update client as expected');
+                assert(true, 'Failed to update ' + resourceName + ' as expected');
             });
         },
         postAndPut: function() {
@@ -61,9 +63,9 @@ module.exports = function(assert, client) {
                     assert.equal(v, item[k], k + ' fields are equal');
                 }, putParameters);
 
-                assert(true, 'Updated client as expected');
+                assert(true, 'Updated ' + resourceName + ' as expected');
             }).catch(function() {
-                assert(false, 'Didn\'t update client even though should have');
+                assert(false, 'Didn\'t update ' + resourceName + ' even though should have');
             });
         },
         ascendingSort: function() {
@@ -153,16 +155,6 @@ module.exports = function(assert, client) {
                 assert(false, 'Didn\'t get paginated items');
             });
         },
-        // TODO: sort + paginate
-        search: function() {
-            // 1. generate items to sort by some feature
-            var firstItem = getParameters(postSchema);
-            var secondItem = getParameters(postSchema);
-
-            // TODO: assert that the correct item was found
-        }
-        // TODO: sort + search
-        // TODO: sort + paginate
     };
 };
 
@@ -175,7 +167,8 @@ function attachData(initialData, res) {
 }
 
 function getParameters(schema) {
-    var properties = schema2object.getRequiredProperties(schema);
-
-    return schema2object.properties2object(properties);
+    return schema2object.properties2object({
+        generators: generators,
+        properties: schema2object.getRequiredProperties(schema)
+    });
 }
