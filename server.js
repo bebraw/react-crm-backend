@@ -80,6 +80,10 @@ module.exports = function(o, cb) {
                 }));
             }
 
+            if(o.logExtra) {
+                console.trace(err);
+            }
+
             res.status(500).json({});
         });
 
