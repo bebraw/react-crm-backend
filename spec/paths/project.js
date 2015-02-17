@@ -2,7 +2,7 @@
 var templates = require('../templates');
 
 
-var name = 'client';
+var name = 'project';
 
 module.exports = {
     get: templates.get(name),

@@ -5,9 +5,9 @@ var templates = require('./templates');
 
 
 module.exports = function(imports) {
-    var model = imports.models.Client;
+    var model = imports.models.Project;
 
-    return swaggerify('client', {
+    return swaggerify('project', {
         get: templates.get(model),
         post: templates.post(model),
         put: templates.put(model),
