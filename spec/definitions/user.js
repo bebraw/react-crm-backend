@@ -2,6 +2,10 @@
 
 
 module.exports = {
+    'required': [
+        'name',
+        'invoicingId',
+    ],
     'properties': {
         'id': require('./id'),
         'name': {
