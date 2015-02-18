@@ -7,7 +7,6 @@ module.exports = {
         'invoicingId',
     ],
     'properties': {
-        'id': require('./id'),
         'name': {
             'type': 'string'
         },

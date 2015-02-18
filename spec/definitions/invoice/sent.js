@@ -11,7 +11,6 @@ module.exports = {
         'paymentDays'
     ],
     'properties': {
-        'id': require('../id'),
         'invoiceId': {
             'type': 'number',
             'description': 'Unique invoice id generated internally by the backend',

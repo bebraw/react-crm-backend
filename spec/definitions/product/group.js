@@ -7,7 +7,6 @@ module.exports = {
         'description'
     ],
     'properties': {
-        'id': require('../id'),
         'name': {
             'type': 'string'
         },
