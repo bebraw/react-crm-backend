@@ -8,10 +8,7 @@ module.exports = {
             '200': {
                 'description': 'An array of sent invoices',
                 'schema': {
-                    'type': 'array',
-                    'items': {
-                        '$ref': '#/definitions/InvoiceSent'
-                    }
+                    '$ref': '#/definitions/InvoiceSent'
                 }
             },
             'default': {

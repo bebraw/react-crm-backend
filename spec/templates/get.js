@@ -38,10 +38,7 @@ module.exports = function(name) {
             '200': {
                 'description': 'An array of ' + name + 's',
                 'schema': {
-                    'type': 'array',
-                    'items': {
-                        '$ref': '#/definitions/' + titledName
-                    }
+                    '$ref': '#/definitions/' + titledName
                 },
                 'headers': {
                     'Total-Count': {

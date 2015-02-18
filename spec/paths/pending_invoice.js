@@ -8,10 +8,7 @@ module.exports = {
             '200': {
                 'description': 'An array of pending invoices',
                 'schema': {
-                    'type': 'array',
-                    'items': {
-                        '$ref': '#/definitions/InvoicePending'
-                    }
+                    '$ref': '#/definitions/InvoicePending'
                 }
             },
             'default': {
