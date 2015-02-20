@@ -24,6 +24,12 @@ module.exports = function(model) {
                     message: 'NOT_FOUND'
                 });
             }
-        });
+        }).catch(function(err) {
+            res.status(403).json({
+                message: err.message,
+                errors: err.errors,
+                warnings: []
+            });
+       });
     };
 };

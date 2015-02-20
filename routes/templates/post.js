@@ -9,6 +9,12 @@ module.exports = function(model) {
            res.json({
                id: client.dataValues.id
            });
+       }).catch(function(err) {
+            res.status(403).json({
+                message: err.message,
+                errors: err.errors,
+                warnings: []
+            });
        });
     };
 };
