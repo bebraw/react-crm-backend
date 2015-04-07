@@ -13,7 +13,6 @@ module.exports = {
         'inStock'
     ],
     'properties': {
-        'id': require('../id'),
         'name': {
             'type': 'string'
         },
@@ -35,9 +34,7 @@ module.exports = {
             'type': 'number',
             'description': 'VAT of the product'
         },
-        'group': {
-            '$ref': '#/definitions/Id'
-        },
+        'group': require('../id'),
         'inStock': {
             'type': 'boolean',
             'description': 'Is the product in the stock'

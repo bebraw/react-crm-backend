@@ -10,6 +10,12 @@ var fp = require('annofp');
 module.exports = function(resourceName) {
     return function(assert, client) {
         var resource = client[resourceName + 's'];
+
+        if(!resource) {
+            console.error('resource "' + resourceName + '" not found!');
+            console.trace();
+        }
+
         var postSchema = resource.post.parameters[0].schema;
 
         return {
