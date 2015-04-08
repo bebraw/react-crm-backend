@@ -13,7 +13,13 @@ module.exports = function(model) {
             limit: perPage,
             offset: page * perPage
         }).then(function(result) {
-            res.header('Total-Count', result.count).json(convertToObjects(result.rows));
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Total-Count', result.count);
+            res.end(JSON.stringify(convertToObjects(result.rows)));
+
+            // XXX: figure out why this doesn't set Content-Type right always
+            // that causes swagger validation to fail!
+            //res.header('Total-Count', result.count).json(convertToObjects(result.rows));
         });
     };
 };
