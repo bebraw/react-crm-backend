@@ -34,12 +34,12 @@ module.exports = {
             'type': 'number',
             'description': 'VAT of the product'
         },
-        'group': require('../id'),
+        'group': require('./id'),
         'inStock': {
             'type': 'boolean',
             'description': 'Is the product in the stock'
         },
-        'createdAt': require('../created'),
-        'updatedAt': require('../updated')
+        'createdAt': require('./created'),
+        'updatedAt': require('./updated')
     }
 };

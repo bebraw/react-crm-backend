@@ -13,7 +13,7 @@ module.exports = {
         'description': {
             'type': 'string'
         },
-        'createdAt': require('../created'),
-        'updatedAt': require('../updated')
+        'createdAt': require('./created'),
+        'updatedAt': require('./updated')
     }
 };
