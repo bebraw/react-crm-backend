@@ -7,10 +7,13 @@ module.exports = function(sequelize, DataTypes) {
             paymentDays: DataTypes.INTEGER
             // TODO: status enum
             // TODO: sender (User)
-            // TODO: receiver (Client)
             // TODO: items (InvoiceItem)
         }
     );
+
+    PendingInvoice.belongsTo(sequelize.models.Client, {
+        foreignKey: 'receiver',
+    });
 
     return PendingInvoice;
 };
