@@ -3,12 +3,12 @@ var swaggerify = require('swaggerify').routes;
 
 
 module.exports = function(imports) {
-    var SentInvoice = imports.models.SentInvoice;
+    var ApprovedInvoice = imports.models.ApprovedInvoice;
 
-    return swaggerify('sent_invoice', {
+    return swaggerify('approved_invoice', {
         get: function(req, res) {
             // XXXXXX
-            SentInvoice.findAll().then(function(invoices) {
+            ApprovedInvoice.findAll().then(function(invoices) {
                 res.json(invoices);
             });
         },
@@ -16,7 +16,7 @@ module.exports = function(imports) {
             var body = req.swagger.params.body.value;
 
             // XXXXXX
-            SentInvoice.create(body).then(function(invoice) {
+            ApprovedInvoice.create(body).then(function(invoice) {
                 res.json({
                     id: invoice.dataValues.id
                 });

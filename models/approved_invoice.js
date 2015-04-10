@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-    var SentInvoice = sequelize.define('SentInvoice', {
+    var ApprovedInvoice = sequelize.define('ApprovedInvoice', {
             invoiceId: DataTypes.INTEGER,
             due: DataTypes.STRING,
             paymentDays: DataTypes.INTEGER
@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     );
 
-    return SentInvoice;
+    return ApprovedInvoice;
 };

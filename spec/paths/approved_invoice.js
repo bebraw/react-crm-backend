@@ -3,12 +3,12 @@
 
 module.exports = {
     'get': {
-        'description': 'This endpoint returns information about invoices that have been sent. The response includes basic details of each invoice, such as sender and receiver information.',
+        'description': 'This endpoint returns information about invoices that have been approved. The response includes basic details of each invoice, such as sender and receiver information.',
         'responses': {
             '200': {
-                'description': 'An array of sent invoices',
+                'description': 'An array of approved invoices',
                 'schema': {
-                    '$ref': '#/definitions/InvoiceSent'
+                    '$ref': '#/definitions/InvoiceApproved'
                 }
             },
             'default': {
@@ -20,7 +20,7 @@ module.exports = {
         }
     },
     'post': {
-        'description': 'This endpoint allows you to send pending invoices.',
+        'description': 'This endpoint allows you to send approved invoices.',
         'parameters': [
             {
                 'name': 'body',
@@ -39,7 +39,7 @@ module.exports = {
         ],
         'responses': {
             '200': {
-                'description': 'Ids of the sent invoices',
+                'description': 'Ids of the approved invoices',
                 'schema': {
                     'type': 'array',
                     'items': {

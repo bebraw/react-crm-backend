@@ -7,7 +7,7 @@
 */
 
 module.exports = function(assert, client) {
-    var resource = client.sentInvoices;
+    var resource = client.approvedInvoices;
 
     return {
         get: function() {
