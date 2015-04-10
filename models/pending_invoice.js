@@ -8,12 +8,17 @@ module.exports = function(sequelize, DataTypes) {
             // TODO: status enum
             // TODO: sender (User)
             // TODO: items (InvoiceItem)
+        },
+        {
+            classMethods: {
+                associate: function(models) {
+                    PendingInvoice.belongsTo(models.Client, {
+                        foreignKey: 'receiver',
+                    });
+                }
+            }
         }
     );
-
-    PendingInvoice.belongsTo(sequelize.models.Client, {
-        foreignKey: 'receiver',
-    });
 
     return PendingInvoice;
 };
