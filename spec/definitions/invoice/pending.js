@@ -1,6 +1,4 @@
 'use strict';
-var invoiceStatuses = require('../../constants/invoice_statuses');
-
 
 module.exports = {
     'required': [
@@ -14,11 +12,6 @@ module.exports = {
         'invoiceId': {
             'type': 'number',
             'description': 'Unique invoice id generated internally by the backend',
-            'readOnly': true
-        },
-        'status': {
-            'type': 'string',
-            'enum': invoiceStatuses,
             'readOnly': true
         },
         'sender': {

@@ -5,7 +5,6 @@ module.exports = function(sequelize, DataTypes) {
             invoiceId: DataTypes.INTEGER,
             due: DataTypes.STRING,
             paymentDays: DataTypes.INTEGER
-            // TODO: status enum
             // TODO: items (InvoiceItem)
         },
         {
