@@ -1,0 +1,20 @@
+{
+  "globals": {
+    "Promise": true
+  },
+  "env": {
+    "node": true,
+    "jasmine": true
+  },
+  "ecmaFeatures": {
+    "globalReturn": false
+  },
+  "rules": {
+    "new-cap": false,
+    "one-var": [2, "never"],
+    "no-underscore-dangle": false,
+    "no-use-before-define": false,
+    "quotes": [4, "single"],
+    "comma-dangle": "always"
+  }
+}

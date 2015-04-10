@@ -16,7 +16,7 @@ var jwt = require('./lib/jwt');
 var spec = require('./spec');
 
 
-module.exports = function(o, cb) {
+module.exports = function(o, finalCb) {
     var models = o.models;
     var routes = require('./routes')({
         models: models
@@ -74,7 +74,8 @@ module.exports = function(o, cb) {
             });
         });
 
-        // important! Do not eliminate `next` as that will disable error handling
+        // `next` is needed for error handling to work!
+        /* eslint-disable no-unused-vars */
         app.use(function(err, req, res, next) {
             if(err.results) {
                 return res.status(422).json(extend(err.results, {
@@ -91,18 +92,18 @@ module.exports = function(o, cb) {
 
         terminator();
 
-        cb(app);
+        finalCb(app);
     });
 };
 
 function getControllers(routes) {
     var ret = {};
 
-    fp.each(function(route, v) {
-        if(is.object(v)) {
+    fp.each(function(route, o) {
+        if(is.object(o)) {
             fp.each(function(k, v) {
                 ret[route + '_' + k] = v;
-            }, v);
+            }, o);
         }
     }, routes);
 

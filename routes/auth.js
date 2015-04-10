@@ -17,14 +17,14 @@ module.exports = function() {
 
             // TODO: this should go to database
             var profile = {
-                first_name: 'John',
-                last_name: 'Foo',
+                'first_name': 'John',
+                'last_name': 'Foo',
                 email: 'foo@bar.com',
                 id: 123
             };
 
             var token = jwt.sign(profile, secret, {
-                expiresInMinutes: 60*5
+                expiresInMinutes: 60 * 5
             });
 
             res.json({

@@ -4,13 +4,13 @@
 module.exports = function(model) {
     return function(req, res) {
         var body = req.swagger.params.body.value;
-        var id = body.id;
+        var bodyId = body.id;
 
         delete body.id;
 
         model.update(body, {
             where: {
-                id: id
+                id: bodyId
             }
         }).then(function(ids) {
             var id = ids[0];

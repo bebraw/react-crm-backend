@@ -33,6 +33,7 @@
     "axios": "^0.5.2",
     "bluebird": "^2.9.23",
     "cli-color": "^0.3.3",
+    "eslint": "^0.18.0",
     "promise-waterfall": "^0.1.0",
     "schema2object": "^0.4.0",
     "swagger2client": "^0.1.4"
@@ -47,7 +48,8 @@
   },
   "scripts": {
     "start": "node bin/www",
-    "test": "node tests"
+    "test": "node tests && npm run lint",
+    "lint": "eslint . --ext .js"
   },
   "keywords": [],
   "licenses": [

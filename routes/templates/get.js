@@ -26,7 +26,7 @@ module.exports = function(model) {
 
 function convertToOrder(str) {
     if(!str) {
-        return;
+        return '';
     }
 
     if(str.indexOf('-') === 0) {

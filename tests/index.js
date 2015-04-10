@@ -1,4 +1,3 @@
-/* global -Promise */
 'use strict';
 var assert = require('assert');
 var url = require('url');
@@ -51,7 +50,7 @@ function main() {
                 assert: assert
             });
 
-            async.eachSeries(zip(testSuites), function(suite, cb) {
+            async.eachSeries(zip(testSuites), function(suite, finalCb) {
                 var suiteName = suite[0];
                 var tests = suite[1];
 
@@ -70,7 +69,7 @@ function main() {
 
                         cb();
                     });
-                }, cb);
+                }, finalCb);
             }, function() {
                 s.close();
             });
@@ -84,30 +83,26 @@ function main() {
 
 function getTestSuites(o) {
     // TODO: assert against possibly missing values (-> annotate)
-    var suites = o.suites;
-    var client = o.client;
-    var assert = o.assert;
-
     return fp.filter(function(name, value) {
         return value;
     }, fp.map(function(name, suite) {
         if(name.indexOf('test_') === 0 && is.fn(suite)) {
-            return suite(assert, client);
+            return suite(o.assert, o.client);
         }
-    }, suites));
+    }, o.suites));
 }
 
-function getData(url, o) {
+function getData(u, o) {
     return new Promise(function(resolve, reject) {
-        axios.get(url, o).then(function(res) {
+        axios.get(u, o).then(function(res) {
             resolve(res.data);
         }).catch(reject);
     });
 }
 
-function getToken(url) {
+function getToken(u) {
     return new Promise(function(resolve, reject) {
-        axios.post(url).then(function(res) {
+        axios.post(u).then(function(res) {
             resolve(res.data.token);
         }).catch(reject);
     });

@@ -5,7 +5,7 @@ var path = require('path');
 
 var Sequelize = require('sequelize');
 
-var basename  = path.basename(module.filename);
+var basename = path.basename(module.filename);
 
 
 module.exports = function(config) {
@@ -23,7 +23,7 @@ module.exports = function(config) {
             return (file.indexOf('.') !== 0) && (file !== basename);
         })
         .forEach(function(file) {
-            var model = sequelize['import'](path.join(__dirname, file));
+            var model = sequelize.import(path.join(__dirname, file));
             db[model.name] = model;
         });
 

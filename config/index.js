@@ -5,6 +5,7 @@ var parseEnv = require('parse-env');
 var configTemplate = require('./config.template');
 var config;
 
+/* eslint-disable no-empty */
 try {
     config = require('./config');
 }
