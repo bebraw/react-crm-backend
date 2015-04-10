@@ -6,7 +6,6 @@ module.exports = function(sequelize, DataTypes) {
             due: DataTypes.STRING,
             paymentDays: DataTypes.INTEGER
             // TODO: status enum
-            // TODO: sender (User)
             // TODO: items (InvoiceItem)
         },
         {
@@ -14,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
                 associate: function(models) {
                     PendingInvoice.belongsTo(models.Client, {
                         foreignKey: 'receiver',
+                    });
+
+                    PendingInvoice.belongsTo(models.User, {
+                        foreignKey: 'sender',
                     });
                 }
             }
