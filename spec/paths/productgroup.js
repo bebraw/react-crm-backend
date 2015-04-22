@@ -1,8 +1,7 @@
 'use strict';
 var templates = require('../templates');
 
-
-var name = 'productgroup';
+var name = 'productgroup'; // eslint-disable-line no-undef
 
 module.exports = {
     get: templates.get(name),
