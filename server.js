@@ -90,7 +90,9 @@ module.exports = function(o, finalCb) {
             res.status(500).json({});
         });
 
-        terminator();
+        if(!o.silent) {
+            terminator();
+        }
 
         finalCb(app);
     });
