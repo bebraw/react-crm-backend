@@ -19,6 +19,8 @@ module.exports = {
             }
         }
     },
+    // XXXXX: figure out proper semantics for approving (separate resource?)
+    /*
     'post': {
         'description': 'This endpoint allows you to send approved invoices.',
         'parameters': [
@@ -27,7 +29,7 @@ module.exports = {
                 'in': 'body',
                 'description': 'The Invoice JSON you want to POST',
                 'schema': {
-                    'pendingInvoices': {
+                    'approvedInvoices': {
                         'type': 'array',
                         'items': {
                             '$ref': '#/definitions/Id'
@@ -55,4 +57,5 @@ module.exports = {
             }
         }
     }
+    */
 };
