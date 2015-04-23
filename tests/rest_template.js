@@ -22,7 +22,7 @@ var createServer = require('../server');
 
 
 module.exports = function(resourceName) {
-    var port = 3000;
+    var port = 3456;
     var root = 'http://localhost:' + port;
 
     describe(resourceName, function() {
