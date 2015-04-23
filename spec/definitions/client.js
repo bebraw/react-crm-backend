@@ -12,7 +12,9 @@ module.exports = {
         'iban',
         'bic',
         'language',
-        'clientgroup'
+        'clientgroup',
+        'contact',
+        'department',
     ],
     'properties': {
         'name': {
@@ -34,6 +36,12 @@ module.exports = {
             'type': 'string'
         },
         'bic': {
+            'type': 'string'
+        },
+        'contact': {
+            'type': 'string'
+        },
+        'department': {
             'type': 'string'
         },
         'language': {

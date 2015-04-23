@@ -9,6 +9,8 @@ module.exports = function(sequelize, DataTypes) {
             phone: DataTypes.STRING,
             iban: DataTypes.STRING,
             bic: DataTypes.STRING,
+            contact: DataTypes.STRING,
+            department: DataTypes.STRING,
             language: DataTypes.STRING
         },
         {
