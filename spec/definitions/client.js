@@ -12,7 +12,8 @@ module.exports = {
         'companyId',
         'iban',
         'bic',
-        'language'
+        'language',
+        'group'
     ],
     'properties': {
         'name': {
@@ -43,6 +44,7 @@ module.exports = {
             'type': 'string',
             'enum': languages
         },
+        'group': require('./id'),
         'createdAt': require('./created'),
         'updatedAt': require('./updated')
     }
