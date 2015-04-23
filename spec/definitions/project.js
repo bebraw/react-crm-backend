@@ -7,7 +7,9 @@ module.exports = {
         'cost',
     ],
     'properties': {
-        'client': require('./id'),
+        'client': {
+            '$ref': '#/definitions/Id'
+        },
         'cost': {
             'type': 'number'
         },

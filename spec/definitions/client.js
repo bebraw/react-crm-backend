@@ -44,7 +44,9 @@ module.exports = {
             'type': 'string',
             'enum': languages
         },
-        'group': require('./id'),
+        'group': {
+            '$ref': '#/definitions/Id'
+        },
         'createdAt': require('./created'),
         'updatedAt': require('./updated')
     }

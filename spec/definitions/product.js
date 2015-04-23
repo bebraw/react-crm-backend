@@ -34,7 +34,9 @@ module.exports = {
             'type': 'number',
             'description': 'VAT of the product'
         },
-        'group': require('./id'),
+        'group': {
+            '$ref': '#/definitions/Id'
+        },
         'inStock': {
             'type': 'boolean',
             'description': 'Is the product in the stock'
