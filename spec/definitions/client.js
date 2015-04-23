@@ -9,11 +9,10 @@ module.exports = {
         'city',
         'postalCode',
         'phone',
-        'companyId',
         'iban',
         'bic',
         'language',
-        'group'
+        'clientgroup'
     ],
     'properties': {
         'name': {
@@ -31,9 +30,6 @@ module.exports = {
         'phone': {
             'type': 'string'
         },
-        'companyId': {
-            'type': 'string'
-        },
         'iban': {
             'type': 'string'
         },
@@ -44,7 +40,7 @@ module.exports = {
             'type': 'string',
             'enum': languages
         },
-        'group': {
+        'clientgroup': {
             '$ref': '#/definitions/Id'
         },
         'createdAt': require('./created'),

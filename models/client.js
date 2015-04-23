@@ -7,10 +7,18 @@ module.exports = function(sequelize, DataTypes) {
             city: DataTypes.STRING,
             postalCode: DataTypes.STRING,
             phone: DataTypes.STRING,
-            companyId: DataTypes.STRING,
             iban: DataTypes.STRING,
             bic: DataTypes.STRING,
             language: DataTypes.STRING
+        },
+        {
+            classMethods: {
+                associate: function(models) {
+                    Client.belongsTo(models.ClientGroup, {
+                        foreignKey: 'clientgroup',
+                    });
+                }
+            }
         }
     );
 

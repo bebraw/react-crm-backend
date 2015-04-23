@@ -9,7 +9,7 @@ module.exports = {
         'sellingPrice',
         'priceChanged',
         'vat',
-        'group',
+        'productgroup',
         'inStock'
     ],
     'properties': {
@@ -34,7 +34,7 @@ module.exports = {
             'type': 'number',
             'description': 'VAT of the product'
         },
-        'group': {
+        'productgroup': {
             '$ref': '#/definitions/Id'
         },
         'inStock': {

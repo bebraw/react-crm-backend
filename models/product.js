@@ -10,6 +10,15 @@ module.exports = function(sequelize, DataTypes) {
             vat: DataTypes.DECIMAL,
             group: DataTypes.INTEGER,
             inStock: DataTypes.BOOLEAN
+        },
+        {
+            classMethods: {
+                associate: function(models) {
+                    Product.belongsTo(models.ProductGroup, {
+                        foreignKey: 'productgroup',
+                    });
+                }
+            }
         }
     );
 
