@@ -1,13 +1,15 @@
 'use strict';
 
+// XXXXX
 
 /* TODO:
     GET invoice (all/specific/sortBy/pagination/search)
     POST invoice (ok/fail)
 */
 
+// TODO: connect + trigger tests
 module.exports = function(assert, client) {
-    var resource = client.approvedInvoices;
+    var resource = client.approvedinvoices;
 
     return {
         get: function() {

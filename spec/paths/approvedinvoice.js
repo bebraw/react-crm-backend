@@ -1,24 +1,10 @@
 'use strict';
 
+var templates = require('../templates');
+
 
 module.exports = {
-    'get': {
-        'description': 'This endpoint returns information about invoices that have been approved. The response includes basic details of each invoice, such as sender and receiver information.',
-        'responses': {
-            '200': {
-                'description': 'An array of approved invoices',
-                'schema': {
-                    '$ref': '#/definitions/Approvedinvoice'
-                }
-            },
-            'default': {
-                'description': 'Unexpected error',
-                'schema': {
-                    '$ref': '#/definitions/Error'
-                }
-            }
-        }
-    },
+    'get': templates.get('approvedinvoice'),
     // XXXXX: figure out proper semantics for approving (separate resource?)
     /*
     'post': {

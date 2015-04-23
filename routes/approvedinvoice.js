@@ -1,17 +1,14 @@
 'use strict';
 var swaggerify = require('swaggerify').routes;
 
+var templates = require('./templates');
+
 
 module.exports = function(imports) {
     var ApprovedInvoice = imports.models.ApprovedInvoice;
 
-    return swaggerify('approved_invoice', {
-        get: function(req, res) {
-            // XXXXXX
-            ApprovedInvoice.findAll().then(function(invoices) {
-                res.json(invoices);
-            });
-        },
+    return swaggerify('approvedinvoice', {
+        get: templates.get(ApprovedInvoice),
         post: function(req, res) {
             var body = req.swagger.params.body.value;
 

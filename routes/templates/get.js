@@ -1,4 +1,8 @@
 'use strict';
+var utils = require('./utils');
+
+var convertToOrder = utils.convertToOrder;
+var convertToObjects = utils.convertToObjects;
 
 
 module.exports = function(model) {
@@ -23,21 +27,3 @@ module.exports = function(model) {
         });
     };
 };
-
-function convertToOrder(str) {
-    if(!str) {
-        return '';
-    }
-
-    if(str.indexOf('-') === 0) {
-        return '`' + str.slice(1) + '` DESC';
-    }
-
-    return str;
-}
-
-function convertToObjects(results) {
-    return results.map(function(result) {
-        return result.dataValues;
-    });
-}
