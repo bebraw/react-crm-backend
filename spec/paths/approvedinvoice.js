@@ -8,7 +8,7 @@ module.exports = {
             '200': {
                 'description': 'An array of approved invoices',
                 'schema': {
-                    '$ref': '#/definitions/InvoiceApproved'
+                    '$ref': '#/definitions/Approvedinvoice'
                 }
             },
             'default': {

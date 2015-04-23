@@ -24,7 +24,7 @@ module.exports = {
             'type': 'array',
             'minItems': 1,
             'items': {
-                '$ref': '#/definitions/InvoiceItem'
+                '$ref': '#/definitions/Invoiceitem'
             }
         },
         'due': {
@@ -37,7 +37,7 @@ module.exports = {
             'description': 'Amount of days to pay the bill',
             'default': 8
         },
-        'createdAt': require('../created'),
-        'updatedAt': require('../updated')
+        'createdAt': require('./created'),
+        'updatedAt': require('./updated')
     }
 };

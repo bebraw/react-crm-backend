@@ -8,7 +8,7 @@ module.exports = {
             '200': {
                 'description': 'An array of pending invoices',
                 'schema': {
-                    '$ref': '#/definitions/InvoicePending'
+                    '$ref': '#/definitions/Pendinginvoice'
                 }
             },
             'default': {
@@ -27,7 +27,7 @@ module.exports = {
                 'in': 'body',
                 'description': 'The Invoice JSON you want to POST',
                 'schema': {
-                    '$ref': '#/definitions/InvoicePending'
+                    '$ref': '#/definitions/Pendinginvoice'
                 },
                 'required': true
             }
@@ -59,7 +59,7 @@ module.exports = {
                 'in': 'body',
                 'description': 'The Invoice JSON you want to PUT',
                 'schema': {
-                    '$ref': '#/definitions/InvoicePending'
+                    '$ref': '#/definitions/Pendinginvoice'
                 },
                 'required': true
             }
