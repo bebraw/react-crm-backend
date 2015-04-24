@@ -12,6 +12,12 @@ module.exports = function(model) {
         var perPage = params.perPage.value;
         var page = params.page.value;
 
+        // q, field (all or specific)
+        // -> {where: title: { like: '%awe%' }} for specific
+        // all???
+
+        // where: Sequelize.or({field: '%awe%'}, ...)
+
         model.findAndCount({
             order: convertToOrder(sortBy),
             limit: perPage,

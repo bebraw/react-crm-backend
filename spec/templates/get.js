@@ -32,7 +32,22 @@ module.exports = function(name) {
                 'required': false,
                 'type': 'integer',
                 'default': 10
-            }
+            },
+            {
+                'in': 'query',
+                'name': 'q',
+                'description': 'Possible search query',
+                'required': false,
+                'type': 'string'
+            },
+            {
+                'in': 'query',
+                'name': 'field',
+                'description': 'Field to search',
+                'required': false,
+                'type': 'string',
+                'default': 'all'
+            },
         ],
         'responses': {
             '200': {

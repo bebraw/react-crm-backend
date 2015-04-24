@@ -29,6 +29,7 @@ module.exports = function(resourceName) {
         sortTests,
         countTests,
         paginationTests,
+        searchTests,
     ]);
 };
 
@@ -273,6 +274,17 @@ function paginationTests() {
     });
 }
 module.exports.paginationTests = paginationTests;
+
+function searchTests() {
+    it('should be able to search all', function(done) {
+        done();
+    });
+
+    it('should be able to search by field', function(done) {
+        done();
+    });
+}
+module.exports.searchTests = searchTests;
 
 function attachData(initialData, res) {
     return new Promise(function(resolve) {
