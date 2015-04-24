@@ -21,6 +21,32 @@ var models = require('../models')(config.database.test);
 var createServer = require('../server');
 
 
+module.exports = function(resourceName) {
+    execute(resourceName, [
+        getTests,
+        postTests,
+        putTests,
+        sortTests,
+        countTests,
+        paginationTests,
+    ]);
+};
+
+function execute(resourceName, tests) {
+    var urlRoot = 'http://localhost';
+    var port = 3456;
+
+    describe(resourceName, function() {
+        connect(urlRoot, port, resourceName);
+
+        tests.forEach(function(test) {
+            test(resourceName);
+        });
+
+    });
+}
+module.exports.execute = execute;
+
 function connect(urlRoot, port, resourceName) {
     var root = urlRoot + ':' + port;
     var server = null;
@@ -64,22 +90,6 @@ function connect(urlRoot, port, resourceName) {
     });
 }
 
-module.exports = function(resourceName) {
-    var urlRoot = 'http://localhost';
-    var port = 3456;
-
-    describe(resourceName, function() {
-        connect(urlRoot, port, resourceName);
-
-        getTests(resourceName);
-        postTests(resourceName);
-        putTests(resourceName);
-        sortTests(resourceName);
-        countTests(resourceName);
-        paginationTests(resourceName);
-    });
-};
-
 function getTests(resourceName) {
     it('should GET', function(done) {
         this.resource.get().then(function(res) {
@@ -89,6 +99,7 @@ function getTests(resourceName) {
         }).finally(done);
     });
 }
+module.exports.getTests = getTests;
 
 function postTests(resourceName) {
     it('should deal with invalid POST', function(done) {
@@ -117,6 +128,7 @@ function postTests(resourceName) {
         }).finally(done);
     });
 }
+module.exports.postTests = postTests;
 
 function putTests(resourceName) {
     it('should be able to PUT', function(done) {
@@ -150,6 +162,7 @@ function putTests(resourceName) {
         }).finally(done);
     });
 }
+module.exports.putTests = putTests;
 
 function sortTests() {
     it('should be able to perform an ascending sort', function(done) {
@@ -204,6 +217,7 @@ function sortTests() {
         }).finally(done);
     });
 }
+module.exports.sortTests = sortTests;
 
 function countTests() {
     it('should be able to return a count in header', function(done) {
@@ -229,6 +243,7 @@ function countTests() {
         }).finally(done);
     });
 }
+module.exports.countTests = countTests;
 
 function paginationTests() {
     it('should be able to paginate', function(done) {
@@ -257,6 +272,7 @@ function paginationTests() {
         }).finally(done);
     });
 }
+module.exports.paginationTests = paginationTests;
 
 function attachData(initialData, res) {
     return new Promise(function(resolve) {
