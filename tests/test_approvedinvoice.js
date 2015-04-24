@@ -8,9 +8,10 @@
 */
 
 var restTemplate = require('./rest_template');
+var suites = require('./suites');
 
 module.exports = restTemplate.execute('approvedinvoice', [
-    restTemplate.getTests
+    suites.get
 ]);
 
 // the problem is that the other tests rely either or PUT/POST. these will be
