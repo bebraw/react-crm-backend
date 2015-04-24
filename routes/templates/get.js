@@ -8,28 +8,65 @@ var convertToObjects = utils.convertToObjects;
 module.exports = function(model) {
     return function(req, res) {
         var params = req.swagger.params;
-        var sortBy = params.sortBy.value;
-        var perPage = params.perPage.value;
-        var page = params.page.value;
 
-        // q, field (all or specific)
-        // -> {where: title: { like: '%awe%' }} for specific
-        // all???
-
-        // where: Sequelize.or({field: '%awe%'}, ...)
-
-        model.findAndCount({
-            order: convertToOrder(sortBy),
-            limit: perPage,
-            offset: page * perPage
-        }).then(function(result) {
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Total-Count', result.count);
-            res.end(JSON.stringify(convertToObjects(result.rows)));
-
-            // XXX: figure out why this doesn't set Content-Type right always
-            // that causes swagger validation to fail!
-            //res.header('Total-Count', result.count).json(convertToObjects(result.rows));
-        });
+        if(params.q.value) {
+            search(model, params, res);
+        }
+        else {
+            find(model, params, res);
+        }
     };
 };
+
+function search(model, params, res) {
+    var field = params.q.field || 'all';
+    var q = params.q.value;
+
+    console.log('searching', field, q);
+
+    // rest
+    var sortBy = params.sortBy.value;
+    var perPage = params.perPage.value;
+    var page = params.page.value;
+
+    // q, field (all or specific)
+    // -> {where: title: { like: '%awe%' }} for specific
+    // all???
+
+    // where: Sequelize.or({field: '%awe%'}, ...)
+
+    model.findAndCount({
+        order: convertToOrder(sortBy),
+        limit: perPage,
+        offset: page * perPage
+    }).then(function(result) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Total-Count', result.count);
+        res.end(JSON.stringify(convertToObjects(result.rows)));
+
+        // XXX: figure out why this doesn't set Content-Type right always
+        // that causes swagger validation to fail!
+        //res.header('Total-Count', result.count).json(convertToObjects(result.rows));
+    });
+}
+
+function find(model, params, res) {
+    // rest
+    var sortBy = params.sortBy.value;
+    var perPage = params.perPage.value;
+    var page = params.page.value;
+
+    model.findAndCount({
+        order: convertToOrder(sortBy),
+        limit: perPage,
+        offset: page * perPage
+    }).then(function(result) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Total-Count', result.count);
+        res.end(JSON.stringify(convertToObjects(result.rows)));
+
+        // XXX: figure out why this doesn't set Content-Type right always
+        // that causes swagger validation to fail!
+        //res.header('Total-Count', result.count).json(convertToObjects(result.rows));
+    });
+}
