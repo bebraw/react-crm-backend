@@ -16,7 +16,17 @@ module.exports = function(model) {
             var id = ids[0];
 
             if(id) {
-                res.json({id: id});
+                model.findOne({
+                    id: id
+                }).then(function(result) {
+                    res.json(result.dataValues);
+                }).catch(function(err) {
+                    res.status(403).json({
+                        message: err.message,
+                        errors: err.errors,
+                        warnings: []
+                    });
+                });
             }
             else {
                 // TODO: specify this case better

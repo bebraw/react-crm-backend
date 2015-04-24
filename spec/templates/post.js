@@ -23,11 +23,7 @@ module.exports = function(name) {
             '200': {
                 'description': 'Id of the created ' + name,
                 'schema': {
-                    'properties': {
-                        'id': {
-                            '$ref': '#/definitions/Id'
-                        }
-                    }
+                    '$ref': '#/definitions/' + titledName
                 }
             },
             'default': {
