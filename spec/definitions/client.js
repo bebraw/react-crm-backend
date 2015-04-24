@@ -15,6 +15,7 @@ module.exports = {
         'clientgroup',
         'contact',
         'department',
+        'invoiceType',
     ],
     'properties': {
         'name': {
@@ -50,6 +51,13 @@ module.exports = {
         },
         'clientgroup': {
             '$ref': '#/definitions/Id'
+        },
+        'invoiceType': {
+            'type': 'string',
+            'enum': [
+                'email',
+                'postal',
+            ]
         },
         'createdAt': require('./created'),
         'updatedAt': require('./updated')

@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
             bic: DataTypes.STRING,
             contact: DataTypes.STRING,
             department: DataTypes.STRING,
-            language: DataTypes.STRING
+            language: DataTypes.STRING,
+            invoiceType: DataTypes.STRING,
         },
         {
             classMethods: {
