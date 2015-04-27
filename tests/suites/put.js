@@ -36,8 +36,8 @@ module.exports = function(resourceName) {
             }, putParameters);
 
             assert(true, 'Updated ' + resourceName + ' as expected');
-        }).catch(function() {
-            assert(false, 'Didn\'t update ' + resourceName + ' even though should have');
-        }).finally(done);
+
+            done();
+        }).catch(done);
     });
 };

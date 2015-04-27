@@ -25,8 +25,8 @@ module.exports = function() {
             resource.get.bind(null)
         ]).then(function(res) {
             assert.equal(res.headers['total-count'], 2, 'Received the right count');
-        }).catch(function() {
-            assert(false, 'Didn\'t get count');
-        }).finally(done);
+
+            done();
+        }).catch(done);
     });
 };

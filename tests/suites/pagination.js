@@ -28,8 +28,8 @@ module.exports = function() {
 
             assert.equal(data.length, 1, 'Received the right amount of items');
             assert.equal(data[0].name, firstItem.name, 'Received the right first name');
-        }).catch(function() {
-            assert(false, 'Didn\'t get paginated items');
-        }).finally(done);
+
+            done();
+        }).catch(done);
     });
 };

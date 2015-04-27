@@ -1,4 +1,10 @@
 'use strict';
 
+// XXXXX
 
-module.exports = require('./rest_template')('pendinginvoice');
+var restTemplate = require('./rest_template');
+var suites = require('./suites');
+
+module.exports = restTemplate.execute('pendinginvoice', [
+    suites.get
+]);

@@ -23,13 +23,17 @@ module.exports = function(resourceName) {
             resource.post.bind(null, getParameters(postSchema)),
             resource.post.bind(null, getParameters(postSchema)),
             resource.get.bind(null, {q: fixedValue})
-        ]).then(function() {
-            // TODO: check that some field of each res.data item is set to fixedValue
+        ]).then(function(res) {
+            var data = res.data;
 
-            assert(true, 'Found ' + resourceName + ' as expected');
-        }).catch(function() {
-            assert(false, 'Didn\'t update ' + resourceName + ' even though should have');
-        }).finally(done);
+            assert.equal(contain(data, firstString, fixedValue), data.length, 'Found ' + resourceName + ' as expected');
+
+            done();
+        }).catch(function(err, d) {
+            console.log('err', err, 'd', d);
+
+            done(err);
+        });
     });
 
     it('should be able to search by field', function(done) {
@@ -51,4 +55,15 @@ function findFirst(orig, type) {
             return k;
         }
     }
+}
+
+function contain(arr) {//k, v) {
+    return arr.length;
+
+    // TODO
+    /*
+    return arr.filter(function(o) {
+        return o[k] === v;
+    }).length;
+    */
 }

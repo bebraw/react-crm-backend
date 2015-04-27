@@ -28,9 +28,9 @@ module.exports = function() {
             assert.equal(data.length, 2, 'Received the right amount of items');
             assert.equal(data[0].name, secondItem.name, 'Received the right first name');
             assert.equal(data[1].name, firstItem.name, 'Received the right second name');
-        }).catch(function() {
-            assert(false, 'Didn\'t get ascending sort');
-        }).finally(done);
+
+            done();
+        }).catch(done);
     });
 
     it('should be able to perform a descending sort', function(done) {
@@ -54,8 +54,8 @@ module.exports = function() {
             assert.equal(data.length, 2, 'Received the right amount of items');
             assert.equal(data[0].name, secondItem.name, 'Received the right first name');
             assert.equal(data[1].name, firstItem.name, 'Received the right second name');
-        }).catch(function() {
-            assert(false, 'Didn\'t get descending sort');
-        }).finally(done);
+
+            done();
+        }).catch(done);
     });
 };
