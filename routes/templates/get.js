@@ -19,48 +19,67 @@ module.exports = function(model) {
 };
 
 function search(model, params, res) {
-    var field = params.q.field || 'all';
+    var field = params.field.value || 'all';
     var q = params.q.value;
-
-    console.log('searching', field, q);
 
     // rest
     var sortBy = params.sortBy.value;
     var perPage = params.perPage.value;
     var page = params.page.value;
 
-    // q, field (all or specific)
-    // -> {where: title: { like: '%awe%' }} for specific
-    // all???
+    var whereClause = {};
 
-    // where: Sequelize.or({field: '%awe%'}, ...)
+    if(field === 'all') {
+        var attributes = Object.keys(model.attributes);
 
-    model.findAndCount({
+        whereClause = constructAllQuery(attributes, q);
+    }
+    else {
+        whereClause[field] = {
+            $like: '%' + q + '%',
+        };
+    }
+
+    findAndCount(model, params, res, {
         order: convertToOrder(sortBy),
         limit: perPage,
-        offset: page * perPage
-    }).then(function(result) {
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Total-Count', result.count);
-        res.end(JSON.stringify(convertToObjects(result.rows)));
-
-        // XXX: figure out why this doesn't set Content-Type right always
-        // that causes swagger validation to fail!
-        //res.header('Total-Count', result.count).json(convertToObjects(result.rows));
+        offset: page * perPage,
+        where: whereClause,
     });
 }
 
+function constructAllQuery(attributes, q) {
+    var or = [];
+
+    attributes.forEach(function(name) {
+        var o = {};
+
+        o[name] = {
+            $like: '%' + q + '%',
+        };
+
+        or.push(o);
+    });
+
+    return {
+        $or: or
+    };
+}
+
 function find(model, params, res) {
-    // rest
     var sortBy = params.sortBy.value;
     var perPage = params.perPage.value;
     var page = params.page.value;
 
-    model.findAndCount({
+    findAndCount(model, params, res, {
         order: convertToOrder(sortBy),
         limit: perPage,
-        offset: page * perPage
-    }).then(function(result) {
+        offset: page * perPage,
+    });
+}
+
+function findAndCount(model, params, res, query) {
+    model.findAndCount(query).then(function(result) {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Total-Count', result.count);
         res.end(JSON.stringify(convertToObjects(result.rows)));

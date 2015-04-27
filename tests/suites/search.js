@@ -7,7 +7,7 @@ var utils = require('./utils');
 var getParameters = utils.getParameters;
 
 
-module.exports = function(resourceName) {
+module.exports = function() {
     it('should be able to search all by default', function(done) {
         var resource = this.resource;
         var postSchema = resource.post.parameters[0].schema;
@@ -18,28 +18,61 @@ module.exports = function(resourceName) {
 
         firstParameters[firstString] = fixedValue;
 
+        // TODO: it would be a good idea to set another field of another record here
+        // to test this properly
+        var localData = [
+            firstParameters,
+            getParameters(postSchema),
+            getParameters(postSchema),
+        ];
+
         waterfall([
-            resource.post.bind(null, firstParameters),
-            resource.post.bind(null, getParameters(postSchema)),
-            resource.post.bind(null, getParameters(postSchema)),
+            resource.post.bind(null, localData[0]),
+            resource.post.bind(null, localData[1]),
+            resource.post.bind(null, localData[2]),
             resource.get.bind(null, {q: fixedValue})
         ]).then(function(res) {
-            var data = res.data;
-
-            assert.equal(contain(data, firstString, fixedValue), data.length, 'Found ' + resourceName + ' as expected');
+            assert.equal(
+                contain(localData, firstString, fixedValue),
+                res.data.length
+            );
 
             done();
-        }).catch(function(err, d) {
-            console.log('err', err, 'd', d);
-
-            done(err);
-        });
+        }).catch(done);
     });
 
     it('should be able to search by field', function(done) {
-        // TODO: check that an item with the set field is returned
+        var resource = this.resource;
+        var postSchema = resource.post.parameters[0].schema;
+        // XXX: if schema doesn't have strings, this will fail
+        var firstString = findFirst(postSchema.properties, 'string');
+        var fixedValue = 'foobar';
+        var firstParameters = getParameters(postSchema);
 
-        done();
+        firstParameters[firstString] = fixedValue;
+
+        var localData = [
+            firstParameters,
+            getParameters(postSchema),
+            getParameters(postSchema),
+        ];
+
+        waterfall([
+            resource.post.bind(null, localData[0]),
+            resource.post.bind(null, localData[1]),
+            resource.post.bind(null, localData[2]),
+            resource.get.bind(null, {
+                field: firstString,
+                q: fixedValue
+            })
+        ]).then(function(res) {
+            assert.equal(
+                contain(localData, firstString, fixedValue),
+                res.data.length
+            );
+
+            done();
+        }).catch(done);
     });
 };
 
@@ -57,13 +90,8 @@ function findFirst(orig, type) {
     }
 }
 
-function contain(arr) {//k, v) {
-    return arr.length;
-
-    // TODO
-    /*
+function contain(arr, k, v) {
     return arr.filter(function(o) {
         return o[k] === v;
     }).length;
-    */
 }
