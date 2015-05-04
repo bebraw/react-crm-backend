@@ -28,10 +28,6 @@ module.exports = function(resourceName) {
             assert(true, 'Posted ' + resourceName + ' as expected');
 
             done();
-        }).catch(function(err) {
-            console.log('err', err.data);
-
-            done();
-        });
+        }).catch(done);
     });
 };
