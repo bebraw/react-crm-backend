@@ -15,7 +15,6 @@ module.exports = function(sequelize, DataTypes) {
             classMethods: {
                 associate: function(models) {
                     Product.belongsTo(models.ProductGroup, {
-                        constraints: false,
                         foreignKey: 'productgroup',
                     });
                 }

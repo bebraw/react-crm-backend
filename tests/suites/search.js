@@ -5,6 +5,8 @@ var waterfall = require('promise-waterfall');
 
 var utils = require('./utils');
 var getParameters = utils.getParameters;
+var patchParameters = utils.patchParameters;
+var generateDependencies = utils.generateDependencies;
 
 
 module.exports = function() {
@@ -26,19 +28,22 @@ module.exports = function() {
             getParameters(postSchema),
         ];
 
-        waterfall([
-            resource.post.bind(null, localData[0]),
-            resource.post.bind(null, localData[1]),
-            resource.post.bind(null, localData[2]),
-            resource.get.bind(null, {q: fixedValue})
-        ]).then(function(res) {
-            assert.equal(
-                contain(localData, firstString, fixedValue),
-                res.data.length
-            );
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(localData[0], d)),
+                resource.post.bind(null, patchParameters(localData[1], d)),
+                resource.post.bind(null, patchParameters(localData[2], d)),
+                resource.get.bind(null, {q: fixedValue})
+            ]).then(function(res) {
+                assert.equal(
+                    contain(localData, firstString, fixedValue),
+                    res.data.length
+                );
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+
+        });
     });
 
     it('should be able to search by field', function(done) {
@@ -57,22 +62,24 @@ module.exports = function() {
             getParameters(postSchema),
         ];
 
-        waterfall([
-            resource.post.bind(null, localData[0]),
-            resource.post.bind(null, localData[1]),
-            resource.post.bind(null, localData[2]),
-            resource.get.bind(null, {
-                field: firstString,
-                q: fixedValue
-            })
-        ]).then(function(res) {
-            assert.equal(
-                contain(localData, firstString, fixedValue),
-                res.data.length
-            );
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(localData[0], d)),
+                resource.post.bind(null, patchParameters(localData[1], d)),
+                resource.post.bind(null, patchParameters(localData[2], d)),
+                resource.get.bind(null, {
+                    field: firstString,
+                    q: fixedValue
+                })
+            ]).then(function(res) {
+                assert.equal(
+                    contain(localData, firstString, fixedValue),
+                    res.data.length
+                );
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+        });
     });
 };
 

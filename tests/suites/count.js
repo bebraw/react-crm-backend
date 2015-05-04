@@ -3,7 +3,10 @@ var assert = require('assert');
 
 var waterfall = require('promise-waterfall');
 
-var getParameters = require('./utils').getParameters;
+var utils = require('./utils');
+var getParameters = utils.getParameters;
+var patchParameters = utils.patchParameters;
+var generateDependencies = utils.generateDependencies;
 
 
 module.exports = function() {
@@ -19,14 +22,16 @@ module.exports = function() {
         var resource = this.resource;
         var postSchema = resource.post.parameters[0].schema;
 
-        waterfall([
-            resource.post.bind(null, getParameters(postSchema)),
-            resource.post.bind(null, getParameters(postSchema)),
-            resource.get.bind(null)
-        ]).then(function(res) {
-            assert.equal(res.headers['total-count'], 2, 'Received the right count');
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(getParameters(postSchema), d)),
+                resource.post.bind(null, patchParameters(getParameters(postSchema), d)),
+                resource.get.bind(null)
+            ]).then(function(res) {
+                assert.equal(res.headers['total-count'], 2, 'Received the right count');
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+        });
     });
 };

@@ -67,6 +67,8 @@ function connect(urlRoot, port, resourceName) {
                         }
                     });
 
+                    that.client = client;
+                    that.schema = schema;
                     that.resource = client[resourceName + 's'];
 
                     done();

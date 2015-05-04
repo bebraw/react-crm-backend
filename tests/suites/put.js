@@ -7,6 +7,8 @@ var waterfall = require('promise-waterfall');
 var utils = require('./utils');
 var attachData = utils.attachData;
 var getParameters = utils.getParameters;
+var patchParameters = utils.patchParameters;
+var generateDependencies = utils.generateDependencies;
 
 
 module.exports = function(resourceName) {
@@ -23,21 +25,23 @@ module.exports = function(resourceName) {
         var postSchema = resource.post.parameters[0].schema;
         var putParameters = getParameters(postSchema);
 
-        waterfall([
-            resource.post.bind(null, getParameters(postSchema)),
-            attachData.bind(null, putParameters),
-            resource.put.bind(null),
-            resource.get.bind(null)
-        ]).then(function(res) {
-            var item = res.data[0];
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(getParameters(postSchema), d)),
+                attachData.bind(null, patchParameters(putParameters, d)),
+                resource.put.bind(null),
+                resource.get.bind(null)
+            ]).then(function(res) {
+                var item = res.data[0];
 
-            fp.each(function(k, v) {
-                assert.equal(v, item[k], k + ' fields are equal');
-            }, putParameters);
+                fp.each(function(k, v) {
+                    assert.equal(v, item[k], k + ' fields are equal');
+                }, putParameters);
 
-            assert(true, 'Updated ' + resourceName + ' as expected');
+                assert(true, 'Updated ' + resourceName + ' as expected');
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+        });
     });
 };

@@ -1,7 +1,10 @@
 'use strict';
 var assert = require('assert');
 
-var getParameters = require('./utils').getParameters;
+var utils = require('./utils');
+var getParameters = utils.getParameters;
+var patchParameters = utils.patchParameters;
+var generateDependencies = utils.generateDependencies;
 
 
 module.exports = function(resourceName) {
@@ -24,10 +27,14 @@ module.exports = function(resourceName) {
         var resource = this.resource;
         var postSchema = resource.post.parameters[0].schema;
 
-        resource.post(getParameters(postSchema)).then(function() {
-            assert(true, 'Posted ' + resourceName + ' as expected');
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            resource.post(
+                patchParameters(getParameters(postSchema), d)
+            ).then(function() {
+                assert(true, 'Posted ' + resourceName + ' as expected');
 
-            done();
+                done();
+            }).catch(done);
         }).catch(done);
     });
 };

@@ -10,11 +10,13 @@ module.exports = function(sequelize, DataTypes) {
         {
             classMethods: {
                 associate: function(models) {
+                    // XXX
                     PendingInvoice.belongsTo(models.Client, {
                         constraints: false,
                         foreignKey: 'receiver',
                     });
 
+                    // XXX
                     PendingInvoice.belongsTo(models.User, {
                         constraints: false,
                         foreignKey: 'sender',

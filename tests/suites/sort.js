@@ -3,7 +3,10 @@ var assert = require('assert');
 
 var waterfall = require('promise-waterfall');
 
-var getParameters = require('./utils').getParameters;
+var utils = require('./utils');
+var getParameters = utils.getParameters;
+var patchParameters = utils.patchParameters;
+var generateDependencies = utils.generateDependencies;
 
 
 module.exports = function() {
@@ -16,21 +19,23 @@ module.exports = function() {
         firstItem.name = 'b';
         secondItem.name = 'a';
 
-        waterfall([
-            resource.post.bind(null, firstItem),
-            resource.post.bind(null, secondItem),
-            resource.get.bind(null, {
-                sortBy: 'name'
-            })
-        ]).then(function(res) {
-            var data = res.data;
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(firstItem, d)),
+                resource.post.bind(null, patchParameters(secondItem, d)),
+                resource.get.bind(null, {
+                    sortBy: 'name'
+                })
+            ]).then(function(res) {
+                var data = res.data;
 
-            assert.equal(data.length, 2, 'Received the right amount of items');
-            assert.equal(data[0].name, secondItem.name, 'Received the right first name');
-            assert.equal(data[1].name, firstItem.name, 'Received the right second name');
+                assert.equal(data.length, 2, 'Received the right amount of items');
+                assert.equal(data[0].name, secondItem.name, 'Received the right first name');
+                assert.equal(data[1].name, firstItem.name, 'Received the right second name');
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+        });
     });
 
     it('should be able to perform a descending sort', function(done) {
@@ -42,20 +47,22 @@ module.exports = function() {
         firstItem.name = 'a';
         secondItem.name = 'b';
 
-        waterfall([
-            resource.post.bind(null, firstItem),
-            resource.post.bind(null, secondItem),
-            resource.get.bind(null, {
-                sortBy: '-name'
-            })
-        ]).then(function(res) {
-            var data = res.data;
+        generateDependencies(this.client, this.schema, postSchema).then(function(d) {
+            waterfall([
+                resource.post.bind(null, patchParameters(firstItem, d)),
+                resource.post.bind(null, patchParameters(secondItem, d)),
+                resource.get.bind(null, {
+                    sortBy: '-name'
+                })
+            ]).then(function(res) {
+                var data = res.data;
 
-            assert.equal(data.length, 2, 'Received the right amount of items');
-            assert.equal(data[0].name, secondItem.name, 'Received the right first name');
-            assert.equal(data[1].name, firstItem.name, 'Received the right second name');
+                assert.equal(data.length, 2, 'Received the right amount of items');
+                assert.equal(data[0].name, secondItem.name, 'Received the right first name');
+                assert.equal(data[1].name, firstItem.name, 'Received the right second name');
 
-            done();
-        }).catch(done);
+                done();
+            }).catch(done);
+        });
     });
 };

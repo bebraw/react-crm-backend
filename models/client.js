@@ -18,7 +18,6 @@ module.exports = function(sequelize, DataTypes) {
             classMethods: {
                 associate: function(models) {
                     Client.belongsTo(models.ClientGroup, {
-                        constraints: false,
                         foreignKey: 'clientgroup',
                     });
                 }
