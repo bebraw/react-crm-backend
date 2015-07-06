@@ -10,11 +10,11 @@
     "globalReturn": false
   },
   "rules": {
-    "new-cap": false,
-    "one-var": false,
-    "no-underscore-dangle": false,
-    "no-use-before-define": false,
-    "quotes": [4, "single"],
-    "comma-dangle": "always"
+    "new-cap": 0,
+    "one-var": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "quotes": 0,
+    "comma-dangle": 0
   }
 }
