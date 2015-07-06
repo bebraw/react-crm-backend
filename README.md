@@ -1,10 +1,10 @@
-[![build status](https://secure.travis-ci.org/koodilehto/koodilehto-crm-backend.png)](http://travis-ci.org/koodilehto/koodilehto-crm-backend)
+[![build status](https://secure.travis-ci.org/bebraw/react-crm-backend.png)](http://travis-ci.org/bebraw/react-crm-backend)
 
-# koodilehto-crm-backend
+# react-crm-backend
 
 TODO
 
 ## License
 
-`koodilehto-crm-backend` is available under MIT. See LICENSE for more details.
+`react-crm-backend` is available under MIT. See LICENSE for more details.
 

@@ -1,5 +1,5 @@
 {
-  "name": "koodilehto-crm-backend",
+  "name": "react-crm-backend",
   "description": "",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "private": true,
@@ -42,11 +42,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/koodilehto/koodilehto-crm-backend.git"
+    "url": "https://github.com/bebraw/react-crm-backend.git"
   },
-  "homepage": "https://github.com/koodilehto/koodilehto-crm-backend",
+  "homepage": "https://github.com/bebraw/react-crm-backend",
   "bugs": {
-    "url": "https://github.com/koodilehto/koodilehto-crm-backend/issues"
+    "url": "https://github.com/bebraw/react-crm-backend/issues"
   },
   "scripts": {
     "start": "node bin/www",
@@ -57,7 +57,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/koodilehto/koodilehto-crm-backend/blob/master/LICENSE"
+      "url": "https://github.com/bebraw/react-crm-backend/blob/master/LICENSE"
     }
   ]
 }
