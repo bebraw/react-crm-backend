@@ -14,7 +14,7 @@
     "one-var": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
-    "quotes": 0,
+    "quotes": [0, "single"],
     "comma-dangle": 0
   }
 }
