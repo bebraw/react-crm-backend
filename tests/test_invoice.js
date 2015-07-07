@@ -28,7 +28,23 @@ describe('Invoice', function() {
     }).catch(done);
   });
 
-  // TODO: test transformations etc.
+  it('should be possible to approve a pending invoice', function(done) {
+    Invoice.create({
+      status: 'pending',
+      invoiceId: 0,
+      due: new Date(),
+    }).then(function(result) {
+      var invoice = result.dataValues;
+
+      Invoice.build(invoice).approve().then(function(ret) {
+        assert.equal(ret.status, 'approved');
+
+        // TODO: check that receiver and sender values have been copied
+
+        done();
+      }).catch(done);
+    }).catch(done);
+  });
 });
 
 function noop() {}

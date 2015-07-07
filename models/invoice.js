@@ -48,6 +48,25 @@ module.exports = function(sequelize, DataTypes) {
                     */
                 },
             },
+            instanceMethods: {
+                approve: function() {
+                    var invoice = this.dataValues;
+
+                    return Invoice.update({
+                        status: 'approved',
+                    }, {
+                        where: {
+                            id: invoice.id,
+                        },
+                    }).then(function(ids) {
+                        var id = ids[0];
+
+                        return Invoice.findOne({
+                            id: id,
+                        });
+                    });
+                },
+            },
         }
     );
 
