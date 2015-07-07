@@ -25,19 +25,34 @@ module.exports = function(sequelize, DataTypes) {
         {
             classMethods: {
                 associate: function(models) {
-                    // all of these should be unique to this model
-                    // this data is attached when changing status from pending to approved
-
-                    // TODO: InvoiceReceiver -> copy of Client
-                    Invoice.hasOne(models.Client, {
+                    Invoice.belongsTo(models.Client, {
+                        foreignKey: {
+                            name: 'receiver',
+                            allowNull: false,
+                        },
+                    });
+                    // copy of Client created during approval
+                    Invoice.belongsTo(models.InvoiceReceiver, {
+                        foreignKey: {
+                            name: 'invoiceReceiver',
+                            allowNull: true,
+                        },
                         constraints: false, // not set initially
-                        as: 'receiver',
+                    });
+                    Invoice.belongsTo(models.User, {
+                        foreignKey: {
+                            name: 'sender',
+                            allowNull: false,
+                        },
                     });
 
-                    // TODO: InvoiceSender -> copy of User
-                    Invoice.hasOne(models.User, {
+                    // copy of User created during approval
+                    Invoice.belongsTo(models.InvoiceSender, {
+                        foreignKey: {
+                            name: 'invoiceSender',
+                            allowNull: true,
+                        },
                         constraints: false, // not set initially
-                        as: 'sender',
                     });
 
                     // TODO
@@ -45,8 +60,7 @@ module.exports = function(sequelize, DataTypes) {
                     Invoice.hasMany(models.InvoiceItem, {
                         constraints: false, // not set initially
                         as: 'invoiceItems',
-                    });
-                    */
+                    });*/
                 },
             },
             instanceMethods: {
