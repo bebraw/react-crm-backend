@@ -1,6 +1,8 @@
 'use strict';
 var assert = require('assert');
 
+var _ = require('lodash');
+
 var config = require('../config');
 
 config.database.test.logging = noop;
@@ -8,6 +10,8 @@ config.database.test.logging = noop;
 var models = require('../models')(config.database.test);
 var Client = models.Client;
 var Invoice = models.Invoice;
+var InvoiceReceiver = models.InvoiceReceiver;
+var InvoiceSender = models.InvoiceSender;
 var User = models.User;
 
 // TODO: delete test db physically before running any tests. it's possible for
@@ -123,9 +127,20 @@ describe('Approved Invoice', function() {
       var invoice = result.dataValues;
 
       Invoice.build(invoice).approve().then(function(ret) {
-        // TODO: check against sender
+        var invId = ret.dataValues && ret.dataValues.invoiceSender;
 
-        done();
+        InvoiceSender.findOne({
+          id: invId,
+        }).then(function(inv) {
+          inv = inv.dataValues;
+
+          delete user.updatedAt;
+          delete inv.updatedAt;
+
+          assert.deepEqual(user, inv);
+
+          done();
+        }).catch(done);
       }).catch(done);
     }).catch(done);
   });
@@ -141,9 +156,28 @@ describe('Approved Invoice', function() {
       var invoice = result.dataValues;
 
       Invoice.build(invoice).approve().then(function(ret) {
-        // TODO: check against receiver
+        var invId = ret.dataValues && ret.dataValues.invoiceSender;
 
-        done();
+        InvoiceReceiver.findOne({
+          id: invId,
+        }).then(function(inv) {
+          inv = inv.dataValues;
+
+          delete client.updatedAt;
+          delete inv.updatedAt;
+
+          // XXX: inv contains fields with nulls while client doesn't
+          // looks like `create` returns different kind of data than `findOne`
+          _.each(inv, function(v, k) {
+            if(!v) {
+              delete inv[k];
+            }
+          });
+
+          assert.deepEqual(client, inv);
+
+          done();
+        }).catch(done);
       }).catch(done);
     }).catch(done);
   });
@@ -153,7 +187,10 @@ function createClientAndUser(cb) {
   Client.create({}).then(function(result1) {
     var client = result1.dataValues;
 
-    User.create({}).then(function(result2) {
+    User.create({
+      name: 'Demo',
+      invoicingId: 1,
+    }).then(function(result2) {
       var user = result2.dataValues;
 
       cb(client, user);

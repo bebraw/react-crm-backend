@@ -3,8 +3,14 @@
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define('User', {
-            name: DataTypes.STRING,
-            invoicingId: DataTypes.INTEGER,
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            invoicingId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         }
     );
 

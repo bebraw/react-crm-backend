@@ -65,19 +65,45 @@ module.exports = function(sequelize, DataTypes) {
             },
             instanceMethods: {
                 approve: function() {
+                    var models = sequelize.models;
                     var invoice = this.dataValues;
 
-                    return Invoice.update({
-                        status: 'approved',
-                    }, {
-                        where: {
-                            id: invoice.id,
-                        },
-                    }).then(function(ids) {
-                        var id = ids[0];
+                    // TODO: create InvoiceSender and InvoiceReceiver
 
-                        return Invoice.findOne({
-                            id: id,
+                    // TODO: tidy up
+                    return models.User.findOne({
+                        id: invoice.sender,
+                    }).then(function(result) {
+                        var user = result.dataValues;
+
+                        return models.InvoiceSender.create(user).then(function(res) {
+                            var invoiceSender = res.dataValues;
+
+                            return models.Client.findOne({
+                                id: invoice.receiver,
+                            }).then(function(re) {
+                                var client = re.dataValues;
+
+                                return models.InvoiceReceiver.create(client).then(function(r) {
+                                    var invoiceReceiver = r.dataValues;
+
+                                    return Invoice.update({
+                                        status: 'approved',
+                                        invoiceSender: invoiceSender.id,
+                                        invoiceReceiver: invoiceReceiver.id,
+                                    }, {
+                                        where: {
+                                            id: invoice.id,
+                                        },
+                                    }).then(function(ids) {
+                                        var id = ids[0];
+
+                                        return Invoice.findOne({
+                                            id: id,
+                                        });
+                                    });
+                                });
+                            });
                         });
                     });
                 },
