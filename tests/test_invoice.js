@@ -45,6 +45,36 @@ describe('Invoice', function() {
       }).catch(done);
     }).catch(done);
   });
+
+  it('should be possible to pay an approved invoice', function(done) {
+    Invoice.create({
+      status: 'approved',
+      invoiceId: 0,
+      due: new Date(),
+    }).then(function(result) {
+      var invoice = result.dataValues;
+
+      Invoice.build(invoice).pay().then(function(ret) {
+        assert.equal(ret.status, 'paid');
+
+        done();
+      }).catch(done);
+    }).catch(done);
+  });
+
+  it('should not be possible to mark a pending invoice as paid', function(done) {
+    Invoice.create({
+      status: 'pending',
+      invoiceId: 0,
+      due: new Date(),
+    }).then(function(result) {
+      var invoice = result.dataValues;
+
+      Invoice.build(invoice).pay().then(function() {
+        done(new Error('marked paid even though shouldn\'t have'));
+      }).catch(done.bind(null, null)); // should raise an Error
+    }).catch(done);
+  });
 });
 
 function noop() {}

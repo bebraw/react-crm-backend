@@ -1,4 +1,5 @@
 'use strict';
+var Promise = require('bluebird');
 
 module.exports = function(sequelize, DataTypes) {
     var Invoice = sequelize.define('Invoice', {
@@ -66,6 +67,27 @@ module.exports = function(sequelize, DataTypes) {
                         });
                     });
                 },
+                pay: function() {
+                    var invoice = this.dataValues;
+
+                    if(invoice.status !== 'approved') {
+                        return Promise.reject(new Error('Tried to a non-approved invoice'));
+                    }
+
+                    return Invoice.update({
+                        status: 'paid',
+                    }, {
+                        where: {
+                            id: invoice.id,
+                        }
+                    }).then(function(ids) {
+                        var id = ids[0];
+
+                        return Invoice.findOne({
+                            id: id,
+                        });
+                    });
+                }
             },
         }
     );
