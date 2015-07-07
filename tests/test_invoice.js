@@ -15,10 +15,15 @@ describe('Invoice', function() {
   });
 
   it('should be able to create an invoice', function(done) {
-    // TODO
-    console.log('should be able to create an invoice');
+    Invoice.create({
+      invoiceId: 0,
+      due: new Date(),
+    }).then(function(result) {
+      var invoice = result.dataValues;
 
-    Invoice.create().then(function(result) {
+      assert.equal(invoice.status, 'pending');
+      assert.equal(invoice.paymentDays, 14);
+
       done();
     }).catch(done);
   });

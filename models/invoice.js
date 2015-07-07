@@ -2,10 +2,24 @@
 
 module.exports = function(sequelize, DataTypes) {
     var Invoice = sequelize.define('Invoice', {
-            status: DataTypes.ENUM('pending', 'approved', 'paid'),
-            invoiceId: DataTypes.INTEGER,
-            due: DataTypes.STRING,
-            paymentDays: DataTypes.INTEGER,
+            status: {
+                type: DataTypes.ENUM('pending', 'approved', 'paid'),
+                allowNull: false,
+                defaultValue: 'pending',
+            },
+            invoiceId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            due: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
+            paymentDays: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 14,
+            },
         },
         {
             classMethods: {
