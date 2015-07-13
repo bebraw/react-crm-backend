@@ -63,8 +63,11 @@ describe('Invoice REST API', function() {
   });
 
   it('should be able to GET an invoice', function(done) {
-    // TODO
-    done();
+    this.resource.get().then(function(res) {
+      assert(res.data.length === 0, 'Failed to get ' + resourceName + 's as expected');
+
+      done();
+    }).catch(done);
   });
 
   it('should be able to PUT an invoice', function(done) {
