@@ -19,6 +19,10 @@ module.exports = {
       description: 'Unique invoice id generated internally by the backend',
       readOnly: true
     },
+    recurring: {
+      type: 'boolean',
+      description: 'Is this a recurring invoice'
+    },
     due: {
       type: 'string',
       //format: 'date', // XXX: validation error

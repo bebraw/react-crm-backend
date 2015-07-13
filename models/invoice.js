@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: true,
                 unique: true
             },
+            recurring: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true
+            },
             due: {
                 type: DataTypes.DATE,
                 allowNull: false,
