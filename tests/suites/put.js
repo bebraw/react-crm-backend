@@ -13,11 +13,14 @@ var generateDependencies = utils.generateDependencies;
 
 module.exports = function(resourceName) {
     it('should be able to PUT', function(done) {
-        this.resource.put().then(function() {
-            assert(false, 'Updated ' + resourceName + ' even though shouldn\'t');
-        }).catch(function() {
-            assert(true, 'Failed to update ' + resourceName + ' as expected');
-        }).finally(done);
+        var status;
+        this.resource.put().then(function(d) {
+            status = d.status;
+        }).catch(function(d) {
+            status = d.status;
+        }).finally(function() {
+          done(status !== 200 ? null : new Error('Invalid status'));
+        });
     });
 
     it('should be able to POST and PUT', function(done) {

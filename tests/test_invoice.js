@@ -82,28 +82,142 @@ describe('Invoice REST API', function() {
   });
 
   it('should be able to approve an invoice', function(done) {
-    // TODO
-    done();
+    // TODO: check that the right data gets copied
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'pending'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'approved';
+
+      this.resource.put(data).then(function(d) {
+        assert(d.data === data.status, 'Wrong status');
+      }).catch(function() {
+        assert(false, 'Failed to update status');
+      }).finally(done);
+    }.bind(this));
   });
 
   it('should be able to mark an invoice as paid', function(done) {
-    // TODO
-    done();
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'approved'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'paid';
+
+      this.resource.put(data).then(function(d) {
+        assert(d.data === data.status, 'Wrong status');
+      }).catch(function() {
+        assert(false, 'Failed to update status');
+      }).finally(done);
+    }.bind(this));
+  });
+
+  it('should not be able to mark a pending invoice as paid', function(done) {
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'pending'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'paid';
+
+      var status;
+      this.resource.put(data).then(function(d) {
+        status = d.status;
+      }).catch(function(d) {
+        status = d.status;
+      }).finally(function() {
+        done(status !== 200 ? null : new Error('Invalid status'));
+      });
+    }.bind(this));
   });
 
   it('should not be able to mark a approved invoice as pending', function(done) {
-    // TODO
-    done();
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'approved'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'pending';
+
+      var status;
+      this.resource.put(data).then(function(d) {
+        status = d.status;
+      }).catch(function(d) {
+        status = d.status;
+      }).finally(function() {
+        done(status !== 200 ? null : new Error('Invalid status'));
+      });
+    }.bind(this));
   });
 
   it('should not be able to mark a paid invoice as approved', function(done) {
-    // TODO
-    done();
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'paid'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'approved';
+
+      var status;
+      this.resource.put(data).then(function(d) {
+        status = d.status;
+      }).catch(function(d) {
+        status = d.status;
+      }).finally(function() {
+        done(status !== 200 ? null : new Error('Invalid status'));
+      });
+    }.bind(this));
   });
 
   it('should not be able to mark a paid invoice as pending', function(done) {
-    // TODO
-    done();
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'paid'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'pending';
+
+      var status;
+      this.resource.put(data).then(function(d) {
+        status = d.status;
+      }).catch(function(d) {
+        status = d.status;
+      }).finally(function() {
+        done(status !== 200 ? null : new Error('Invalid status'));
+      });
+    }.bind(this));
   });
 });
 
