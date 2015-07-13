@@ -52,6 +52,7 @@ function put(model) {
         });
       }
 
+      // XXX: allow body modifications if approval is ok
       if(dataValues.status === 'pending' && body.status === 'approved') {
         return model.build(body).approve().then(function(d) {
           res.json(d.dataValues);
@@ -61,6 +62,18 @@ function put(model) {
           });
         });
       }
+      // XXXXX: use this instead of above logic for payment
+      /*
+      if(dataValues.status !== 'paid' && body.status === 'paid') {
+        return model.build(body).pay().then(function(d) {
+          res.json(d.dataValues);
+        }).catch(function() {
+          res.status(403).json({
+            message: 'Failed to pay'
+          });
+        });
+      }
+      */
 
       model.update(body, {
         where: {
