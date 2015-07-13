@@ -32,7 +32,6 @@ function execute(resourceName, tests) {
         tests.forEach(function(test) {
             test(resourceName);
         });
-
     });
 }
 module.exports.execute = execute;
@@ -81,6 +80,7 @@ function connect(urlRoot, port, resourceName) {
         server.close(done);
     });
 }
+module.exports.connect = connect;
 
 function getData(u, o) {
     return new Promise(function(resolve, reject) {
