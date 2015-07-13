@@ -90,6 +90,21 @@ describe('Invoice REST API', function() {
     // TODO
     done();
   });
+
+  it('should not be able to mark a approved invoice as pending', function(done) {
+    // TODO
+    done();
+  });
+
+  it('should not be able to mark a paid invoice as approved', function(done) {
+    // TODO
+    done();
+  });
+
+  it('should not be able to mark a paid invoice as pending', function(done) {
+    // TODO
+    done();
+  });
 });
 
 function createInvoice(apiClient, schema, resource, extraField, cb) {
