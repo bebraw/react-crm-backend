@@ -32,7 +32,7 @@ describe('Invoice REST API', function() {
   });
 
   it('should be able to POST an invoice', function(done) {
-    createInvoice(this.client, this.schema, this.resource, function(err) {
+    createInvoice(this.client, this.schema, this.resource, null, function(err) {
       if(err) {
         return done(err);
       }
@@ -59,6 +59,28 @@ describe('Invoice REST API', function() {
     }).finally(done);
   });
 
+  it('should be able to update status', function(done) {
+    // XXX: bad API design - this should be cleaned up
+    createInvoice(this.client, this.schema, this.resource, {
+      field: 'status',
+      value: 'pending'
+    }, function(err, invoice) {
+      if(err) {
+        return done(err);
+      }
+
+      var data = invoice.data;
+
+      data.status = 'approved';
+
+      this.resource.put(data).then(function(d) {
+        assert(d.data === data.status, 'Wrong status');
+      }).catch(function() {
+        assert(false, 'Failed to update status');
+      }).finally(done);
+    }.bind(this));
+  });
+
   it('should be able to approve an invoice', function(done) {
     // TODO
     done();
@@ -70,7 +92,7 @@ describe('Invoice REST API', function() {
   });
 });
 
-function createInvoice(apiClient, schema, resource, cb) {
+function createInvoice(apiClient, schema, resource, extraField, cb) {
   var postSchema = resource.post.parameters[0].schema;
 
   createClientAndUser(function(client, user) {
@@ -87,6 +109,10 @@ function createInvoice(apiClient, schema, resource, cb) {
         field: 'due',
         value: new Date()
       });
+
+      if(extraField) {
+        d.push(extraField);
+      }
 
       resource.post(
         patchParameters(getParameters(postSchema), d)

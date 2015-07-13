@@ -53,7 +53,7 @@ module.exports = function(o, finalCb) {
         }));
 
         app.use(middleware.swaggerValidator({
-            validateResponse: true
+            validateResponse: false // XXXXX: disabled due to PUT
         }));
 
         app.use(middleware.swaggerRouter({
