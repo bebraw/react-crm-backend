@@ -52,6 +52,16 @@ function put(model) {
         });
       }
 
+      if(dataValues.status === 'pending' && body.status === 'approved') {
+        return model.build(body).approve().then(function(d) {
+          res.json(d.dataValues);
+        }).catch(function() {
+          res.status(403).json({
+            message: 'Failed to approve'
+          });
+        });
+      }
+
       model.update(body, {
         where: {
           id: bodyId
@@ -62,8 +72,8 @@ function put(model) {
         if(id) {
           model.findOne({
             id: id
-          }).then(function(result) {
-            res.json(result.dataValues);
+          }).then(function(r) {
+            res.json(r.dataValues);
           }).catch(function(err) {
             res.status(403).json({
               message: err.message,

@@ -1,5 +1,8 @@
 'use strict';
 var assert = require('assert');
+
+var _ = require('lodash');
+
 var connect = require('./rest_template').connect;
 
 var utils = require('./suites/utils');
@@ -8,6 +11,14 @@ var patchParameters = utils.patchParameters;
 var generateDependencies = utils.generateDependencies;
 
 var createClientAndUser = require('./test_invoice_db').createClientAndUser;
+
+var config = require('../config');
+
+config.database.test.logging = noop;
+
+var models = require('../models')(config.database.test);
+var InvoiceReceiver = models.InvoiceReceiver;
+var InvoiceSender = models.InvoiceSender;
 
 describe('Invoice REST API', function() {
   var urlRoot = 'http://localhost';
@@ -86,7 +97,7 @@ describe('Invoice REST API', function() {
     createInvoice(this.client, this.schema, this.resource, {
       field: 'status',
       value: 'pending'
-    }, function(err, invoice) {
+    }, function(err, invoice, client, user) {
       if(err) {
         return done(err);
       }
@@ -95,8 +106,50 @@ describe('Invoice REST API', function() {
 
       data.status = 'approved';
 
-      this.resource.put(data).then(function(d) {
-        assert(d.data === data.status, 'Wrong status');
+      this.resource.put(data).then(function(res) {
+        InvoiceReceiver.findOne({
+          id: res.invoiceReceiver
+        }).then(function(inv) {
+          if(!inv) {
+            return assert(false, 'Missing invoiceReceiver');
+          }
+
+          inv = inv.dataValues;
+
+          delete client.createdAt;
+          delete inv.createdAt;
+
+          delete client.updatedAt;
+          delete inv.updatedAt;
+
+          // XXX: inv contains fields with nulls while client doesn't
+          // looks like `create` returns different kind of data than `findOne`
+          _.each(inv, function(v, k) {
+            if(!v) {
+              delete inv[k];
+            }
+          });
+
+          assert.deepEqual(client, inv);
+
+          InvoiceSender.findOne({
+            id: res.invoiceSender
+          }).then(function(is) {
+            if(!is) {
+              return assert(false, 'Missing invoiceSender');
+            }
+
+            is = is.dataValues;
+
+            delete user.createdAt;
+            delete is.createdAt;
+
+            delete user.updatedAt;
+            delete is.updatedAt;
+
+            assert.deepEqual(user, is);
+          });
+        });
       }).catch(function() {
         assert(false, 'Failed to update status');
       }).finally(done);
@@ -246,8 +299,11 @@ function createInvoice(apiClient, schema, resource, extraField, cb) {
       resource.post(
         patchParameters(getParameters(postSchema), d)
       ).then(function(invoice) {
-        cb(null, invoice);
+        // XXXXX: decouple
+        cb(null, invoice, client, user);
       }).catch(cb);
     }).catch(cb);
   });
 }
+
+function noop() {}
