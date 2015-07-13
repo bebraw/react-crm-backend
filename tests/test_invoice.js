@@ -1,9 +1,17 @@
 'use strict';
 //var assert = require('assert');
+var connect = require('./rest_template').connect;
 
 describe('Invoice REST API', function() {
+  var urlRoot = 'http://localhost';
+  var port = 3456;
+
+  connect(urlRoot, port, 'invoice');
+
   it('should be able to POST an invoice', function(done) {
     // TODO
+    console.log(this.resource);
+
     done();
   });
 

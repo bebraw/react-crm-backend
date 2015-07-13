@@ -1,6 +1,4 @@
 'use strict';
-var languages = require('../constants/languages');
-
 
 module.exports = {
     'required': [
@@ -47,7 +45,7 @@ module.exports = {
         },
         'language': {
             'type': 'string',
-            'enum': languages
+            'enum': require('../constants/languages')
         },
         'clientgroup': {
             '$ref': '#/definitions/Id'
