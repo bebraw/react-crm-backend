@@ -21,7 +21,7 @@ module.exports = {
     },
     due: {
       type: 'string',
-      format: 'date',
+      //format: 'date', // XXX: validation error
       description: 'Day in which the invoice is due'
     },
     paymentDays: {

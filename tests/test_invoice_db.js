@@ -197,5 +197,6 @@ function createClientAndUser(cb) {
     });
   });
 }
+module.exports.createClientAndUser = createClientAndUser;
 
 function noop() {}
