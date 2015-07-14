@@ -63,6 +63,13 @@ module.exports = function(ctx) {
                 </tr>;
               })}
               </tbody>
+              <tfoot>
+                <td>Total</td>
+                <td>TODO</td>
+                <td>TODO</td>
+                <td>TODO</td>
+                <td>TODO</td>
+              </tfoot>
             </table>
           </article>
           <footer>
