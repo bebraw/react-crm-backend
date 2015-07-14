@@ -4,7 +4,7 @@ var React = require('react');
 module.exports = function(ctx) {
   ctx.sender = ctx.sender || {};
   ctx.recipient = ctx.recipient || {};
-  ctx.services = ctx.services || [];
+  ctx.products = ctx.products || [];
 
   return React.renderToStaticMarkup(
     <html>
@@ -42,7 +42,7 @@ module.exports = function(ctx) {
                 <div className="companyId">{ctx.recipient.companyId}</div>
               </div>
             </div>
-            <table className="services">
+            <table className="products">
               <thead>
                 <tr>
                   <th>Service</th>
@@ -53,13 +53,13 @@ module.exports = function(ctx) {
                 </tr>
               </thead>
               <tbody>
-              {ctx.services.map(function(service, i) {
+              {ctx.products.map(function(product, i) {
                 return <tr key={i}>
-                  <td>{service.name}</td>
-                  <td>{toFixed(service.cost)}</td>
-                  <td>{toFixed(service.vat)}</td>
-                  <td>{toFixed(service.vatCost)}</td>
-                  <td>{toFixed(service.total)}</td>
+                  <td>{product.name}</td>
+                  <td>{toFixed(product.cost)}</td>
+                  <td>{toFixed(product.vat)}</td>
+                  <td>{toFixed(product.vatCost)}</td>
+                  <td>{toFixed(product.total)}</td>
                 </tr>;
               })}
               </tbody>

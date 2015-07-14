@@ -69,34 +69,34 @@ article, .info {
     margin-bottom: 4em;
 }
 
-.services {
+.products {
     width: 100%;
     border-collapse: collapse;
 }
 
-.services th, .services td {
+.products th, .products td {
     margin: 0;
     padding: 0.3em;
 }
 
-.services th {
+.products th {
     font-weight: normal;
 }
 
-.services th, .services td {
+.products th, .products td {
     text-align: right;
     border-bottom: 0.1em solid black;
 }
 
-.services tr:nth-last-child(2) td, .services tr:last-child td {
+.products tr:nth-last-child(2) td, .products tr:last-child td {
     border-bottom: none;
 }
 
-.services tr:last-child td {
+.products tr:last-child td {
     font-weight: bold;
 }
 
-.services th:first-child, .services td:first-child {
+.products th:first-child, .products td:first-child {
     text-align: left;
 }
 
