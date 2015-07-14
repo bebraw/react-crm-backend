@@ -73,3 +73,9 @@ module.exports = function(ctx) {
     </html>
     );
 };
+
+function toFixed(a) {
+    if(a) {
+        return a.toFixed(2);
+    }
+}
