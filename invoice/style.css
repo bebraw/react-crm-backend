@@ -62,7 +62,16 @@ header .sender {
 header .extra {
     float: right;
 
+    text-align: left;
+}
+header .extra .label {
+    display: inline-block;
+    width: 9em;
+    margin-right: 1em;
+}
+header .extra .invoice {
     text-align: right;
+    margin-bottom: 1em;
 }
 
 article, .info {
@@ -85,27 +94,38 @@ article, .info {
 
 .products th, .products td {
     text-align: right;
-    border-bottom: 0.1em solid black;
 }
 
 .products tr:nth-last-child(2) td, .products tr:last-child td {
     border-bottom: none;
 }
 
-.products tr:last-child td {
+.products thead tr th {
     font-weight: bold;
 }
 
-.products th:first-child, .products td:first-child {
+.products thead th:first-child, .products tbody th:first-child, thead .products td:first-child, tbody .products td:first-child {
     text-align: left;
+}
+
+.products tbody {
+    border-bottom: 0.1em solid black;
+}
+
+.products tbody td {
+    text-align: left;
+}
+
+.products tbody td:last-child {
+    text-align: right;
+}
+
+.products tfoot td {
+    text-align: right;
 }
 
 .invoice {
     font-weight: bold;
-}
-
-footer {
-
 }
 
 /* hide unnecessary bits on print and make sure preview is fullsized */
