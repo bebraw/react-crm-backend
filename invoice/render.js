@@ -2,9 +2,10 @@
 require('node-jsx').install();
 var pdf = require('html-pdf');
 
-var tpl = require('./template.jsx');
-
 module.exports = function(o, cb) {
+  var lang = o.ctx.language || 'fi';
+  var tpl = require('./template_' + lang +'.jsx');
+
   o.ctx = o.ctx || {};
   o.filename = o.filename || 'tmp.pdf';
   o.format = o.format || 'A4';
