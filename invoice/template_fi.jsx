@@ -125,7 +125,9 @@ module.exports = function(ctx) {
             </table>
           </article>
           <footer>
-            <div className="companyDetails"></div>
+            <div className="companyDetails">
+              {ctx.extra}
+            </div>
           </footer>
         </div>
       </body>
