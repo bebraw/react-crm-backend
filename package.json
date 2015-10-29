@@ -23,7 +23,7 @@
     "react": "^0.13.3",
     "require-dir": "^0.3.0",
     "sequelize": "^3.3.2",
-    "sqlite3": "^3.0.8",
+    "sqlite3": "^3.1.0",
     "swagger-tools": "^0.8.7",
     "swaggerify": "^0.2.0",
     "t1000": "^0.2.0",
