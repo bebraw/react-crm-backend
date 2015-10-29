@@ -7,6 +7,9 @@ module.exports = function(ctx) {
   ctx.products = ctx.products || [];
 
   var vat = ctx.vat;
+  var currency = ctx.currency || function(v) {
+    return '€' + v;
+  };
 
   ctx.products = ctx.products.map(function(product) {
     product.tax = product.price * (1 + vat) - product.price;
@@ -81,6 +84,7 @@ module.exports = function(ctx) {
                 <div className="company">{ctx.recipient.company}</div>
                 <div className="address">{ctx.recipient.address}</div>
                 <div className="city">{ctx.recipient.postalCode} {ctx.recipient.city}</div>
+                <div className="country">{ctx.recipient.country}</div>
                 <div className="phone">{ctx.recipient.phone}</div>
                 <div className="companyId">{ctx.recipient.companyId}</div>
               </div>
@@ -103,23 +107,23 @@ module.exports = function(ctx) {
               <tfoot>
                 <tr>
                   <td>Brutto</td>
-                  <td>€ {summaries.price.toFixed(2)}</td>
+                  <td>{currency(summaries.price.toFixed(2))}</td>
                 </tr>
                 <tr>
                   <td>Vat</td>
-                  <td>{(vat * 100).toFixed(3) + '%'}</td>
+                  <td>{(vat * 100).toFixed(0) + '%'}</td>
                 </tr>
                 <tr>
                   <td>Tax</td>
-                  <td>€ {summaries.tax.toFixed(2)}</td>
+                  <td>{currency(summaries.tax.toFixed(2))}</td>
                 </tr>
                 <tr>
                   <td>Other</td>
-                  <td>€ 0</td>
+                  <td>{currency(0)}</td>
                 </tr>
                 <tr>
                   <td>Total</td>
-                  <td>€ {summaries.total.toFixed(2)}</td>
+                  <td>{currency(summaries.total.toFixed(2))}</td>
                 </tr>
               </tfoot>
             </table>
