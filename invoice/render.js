@@ -4,7 +4,7 @@ var pdf = require('html-pdf');
 
 module.exports = function(o, cb) {
   var lang = o.ctx.language || 'fi';
-  var tpl = require('./template_' + lang +'.jsx');
+  var tpl = require('./template_' + lang + '.jsx');
 
   o.ctx = o.ctx || {};
   o.filename = o.filename || 'tmp.pdf';
